@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oceanos.controllers.MainController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oceanos.missioncreator.controllers.MainController">
    <children>
-      <fx:include source="../sample/sample.fxml" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <fx:include source="../sample/sample.fxml" />
+         </children>
+      </AnchorPane>
+      <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main" />
+      <Label fx:id="mainLabel" layoutX="60.0" layoutY="21.0" text="Label" />
    </children>
 </AnchorPane>

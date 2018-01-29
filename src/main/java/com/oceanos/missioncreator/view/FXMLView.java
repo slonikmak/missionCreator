@@ -1,4 +1,4 @@
-package com.oceanos.view;
+package com.oceanos.missioncreator.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

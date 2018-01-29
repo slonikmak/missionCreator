@@ -6,7 +6,11 @@
 
     <groupId>com.oceanos</groupId>
     <artifactId>missionCreator</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>mapmodule</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -75,6 +79,11 @@
              <artifactId>aspectjweaver</artifactId>
              <version>1.8.10</version>
          </dependency>-->
+        <dependency>
+            <groupId>com.oceanos</groupId>
+            <artifactId>map-module</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

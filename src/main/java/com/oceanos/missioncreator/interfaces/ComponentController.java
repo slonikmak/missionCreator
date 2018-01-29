@@ -1,6 +1,4 @@
-package com.oceanos.interfaces;
-
-import javafx.fxml.Initializable;
+package com.oceanos.missioncreator.interfaces;
 
 import javax.annotation.PostConstruct;
 

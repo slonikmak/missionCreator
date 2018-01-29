@@ -1,10 +1,8 @@
-package com.oceanos.main;
+package com.oceanos.missioncreator.main;
 
-import com.oceanos.controllers.MainView;
-import com.oceanos.view.FXMLView;
+import com.oceanos.missioncreator.controllers.MainView;
+import com.oceanos.missioncreator.view.FXMLView;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
