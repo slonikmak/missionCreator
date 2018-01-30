@@ -9,9 +9,9 @@ var jsToJavaBridge = {
 
         javaBridge.logMsg("add marker ["+lat+", "+lon+"]");
 
-        L.marker([lat, lon]).addTo(this.map)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-            .openPopup();
+            L.marker([lat, lon]).addTo(obj.map)
+                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .openPopup();
     }
 
 
