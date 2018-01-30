@@ -17,7 +17,21 @@
             <version>5.0.0-RC3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.mohamnag</groupId>
+            <artifactId>javafx_webview_debugger</artifactId>
+            <version>-4314cd7786-1</version>
+        </dependency>
+
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
 
 </project>

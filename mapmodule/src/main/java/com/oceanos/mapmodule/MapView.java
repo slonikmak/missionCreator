@@ -1,18 +1,30 @@
 package com.oceanos.mapmodule;
 
+import com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer;
+import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
+import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 
 public class MapView extends AnchorPane{
     private WebView webView;
     private WebEngine webEngine;
     private JSObject window;
+    private ApplicationContext applicationContext;
+
+    private JavaToJSBridge javaToJsBridge;
 
     public MapView(){
         super();
+
+        applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
 
         setMaxWidth(Integer.MAX_VALUE);
         setMaxHeight(Integer.MAX_VALUE);
@@ -43,10 +55,23 @@ public class MapView extends AnchorPane{
                 .stateProperty()
                 .addListener((ov, oldState, newState) -> {
                             if (newState == Worker.State.SUCCEEDED) {
-                                System.out.println("Change");
+                                //webView.getEngine().executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+
+
+                                try {
+                                    DevToolsDebuggerServer.startDebugServer(webEngine.impl_getDebugger(), 51742);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 window = (JSObject) webEngine.executeScript("window");
-                                //window.setMember("javaController", controller);
-                                //jsBridge = new JsBridge(window, repository);
+                                javaToJsBridge = applicationContext.getBean(JavaToJSBridge.class);
+                                window.setMember("javaController", applicationContext.getBean(JsToJavaBridge.class));
+                                window.setMember("console", applicationContext.getBean(JsToJavaBridge.class));
+                                JSObject jsToJava = (JSObject) webEngine.executeScript("jsToJavaBridge");
+                                //jsToJava.call("echo","echo");
+                                javaToJsBridge.setJsObject(jsToJava);
+                                javaToJsBridge.echo("echo");
+
                                 //jsBridge.initJavaController();
                                 //repository.setJsBridge(jsBridge);
 
@@ -67,5 +92,18 @@ public class MapView extends AnchorPane{
                             //setMapUrl();
                         }
                 );
+
+
+
+        new Thread(()->{
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Platform.runLater(()->javaToJsBridge.addMarker(51.505, -0.09));
+        }).start();
     }
+
+
 }
