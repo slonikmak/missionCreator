@@ -10,6 +10,7 @@ public class Repository {
     ObservableList<MapLayer> layers = FXCollections.observableArrayList();
 
     public void addLayer(MapLayer layer){
+        System.out.println("Layer added: "+layer.getId());
         layers.add(layer);
     }
 

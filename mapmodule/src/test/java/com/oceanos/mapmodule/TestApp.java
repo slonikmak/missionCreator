@@ -23,9 +23,9 @@ public class TestApp extends Application {
 
         Button btn2 = new Button("change");
 
-        btn.setOnAction((e)->{
+        /*btn.setOnAction((e)->{
             mapView.getRepository().getLayers().get(0).pointsProperty().get(0).latProperty().add(0.001);
-        });
+        });*/
 
         borderPane.setBottom(btn);
 

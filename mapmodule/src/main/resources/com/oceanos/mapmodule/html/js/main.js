@@ -20,12 +20,16 @@ $(function () {
         if (e.layer instanceof L.Marker){
             javaBridge.logMsg("add new Marker");
             group.addLayer(e.layer);
-            javaBridge.addMarker(e.layer._leaflet_id, e.layer.getLatLng().lat,e.layer.getLatLng().lng);
+            //javaBridge.addMarker(e.layer._leaflet_id, e.layer.getLatLng().lat,e.layer.getLatLng().lng);
         }
     });
 
     map.on("click",function (e) {
         javaBridge.logMsg("click")
+        var marker = L.marker(e.latlng).addTo(map);
+
+        javaBridge.logMsg("try add from js "+marker._leaflet_id+" "+e.latlng.lat);
+        javaBridge.addMarker(marker._leaflet_id, e.latlng.lat, e.latlng.lng)
     })
 
 

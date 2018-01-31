@@ -4,8 +4,8 @@ var javaBridge = {
         javaController.log("From js: "+msg)
     },
 
-    addMarker: function (id, lat, lon) {
-        javaController.addMarker(id, lat, lon);
+    addMarker: function (id, lat, lng) {
+        javaController.addMarker(id, lat, lng);
     }
 
 };

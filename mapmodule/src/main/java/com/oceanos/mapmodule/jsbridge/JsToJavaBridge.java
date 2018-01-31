@@ -21,8 +21,10 @@ public class JsToJavaBridge {
     }
 
     public void addMarker(int id, double lat, double lng){
-        System.out.println("Marker added: "+id+" " +lat+" "+lng);
+
+        System.out.println("add marker from JS");
         repository.addLayer(new Marker(id, lat, lng));
+        System.out.println(repository.getLayers().size());
     }
 
 }
