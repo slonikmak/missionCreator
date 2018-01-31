@@ -3,6 +3,7 @@ package com.oceanos.mapmodule;
 import com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer;
 import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
 import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
+import com.oceanos.mapmodule.repository.Repository;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
@@ -20,11 +21,14 @@ public class MapView extends AnchorPane{
     private ApplicationContext applicationContext;
 
     private JavaToJSBridge javaToJsBridge;
+    private Repository repository;
 
     public MapView(){
         super();
 
         applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
+
+        repository = applicationContext.getBean(Repository.class);
 
         setMaxWidth(Integer.MAX_VALUE);
         setMaxHeight(Integer.MAX_VALUE);
@@ -55,7 +59,7 @@ public class MapView extends AnchorPane{
                 .stateProperty()
                 .addListener((ov, oldState, newState) -> {
                             if (newState == Worker.State.SUCCEEDED) {
-                                //webView.getEngine().executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
+                                //webEngine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
 
 
                                 /*try {
@@ -72,14 +76,7 @@ public class MapView extends AnchorPane{
                                 javaToJsBridge.setJsObject(jsToJava);
                                 javaToJsBridge.echo("echo");
 
-                                Platform.runLater(()->{
-                                    try {
-                                        Thread.sleep(5000);
-                                        javaToJsBridge.addMarker(51.505, -0.09);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                });
+
 
                                 //jsBridge.initJavaController();
                                 //repository.setJsBridge(jsBridge);
@@ -104,6 +101,14 @@ public class MapView extends AnchorPane{
 
 
 
+    }
+
+    public void addMarker(){
+        javaToJsBridge.addMarker(51.505, -0.09);
+    }
+
+    public Repository getRepository(){
+        return repository;
     }
 
 

@@ -3,16 +3,16 @@ package com.oceanos.mapmodule.model;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class PointModel {
+public class Point {
     private DoubleProperty lat;
     private DoubleProperty lon;
 
-    public PointModel(){
+    public Point(){
         lat = new SimpleDoubleProperty();
         lon = new SimpleDoubleProperty();
     }
 
-    public PointModel(double lat, double lon) {
+    public Point(double lat, double lon) {
         this();
         this.lat.setValue(lat);
         this.lon.setValue(lon);

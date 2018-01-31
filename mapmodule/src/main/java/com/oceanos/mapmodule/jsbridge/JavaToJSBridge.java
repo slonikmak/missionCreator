@@ -23,4 +23,8 @@ public class JavaToJSBridge {
     public void addMarker(double lat, double lon){
         jsObject.call("addMarker", lat,lon);
     }
+
+    public void addMarker(){
+
+    }
 }
