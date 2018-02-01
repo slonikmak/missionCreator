@@ -10,6 +10,8 @@ public class JsToJavaBridge {
 
     @Autowired
     Repository repository;
+    @Autowired
+    JavaToJSBridge javaToJSBridge;
 
     public void log(String msg){
         System.out.println(msg);
@@ -23,8 +25,22 @@ public class JsToJavaBridge {
     public void addMarker(int id, double lat, double lng){
 
         System.out.println("add marker from JS");
-        repository.addLayer(new Marker(id, lat, lng));
-        System.out.println(repository.getLayers().size());
+        Marker marker = new Marker(id, lat, lng);
+        repository.addLayer(marker);
+        marker.pointsProperty().get(0).latProperty().addListener((a,b,c)->javaToJSBridge.changeMarker(
+                marker.getId(),
+                (Double) c,
+                marker.pointsProperty().get(0).getLng()));
+    }
+
+    public void clickMarker(int id){
+        System.out.println("Marker clicked: "+id);
+        repository.setCurrentLayer(id);
+    }
+
+    public void changeMarker(int id, double lat, double lng){
+        repository.getLayers().filtered(l->l.getId()==id).get(0).pointsProperty().get(0).setLatLng(lat,lng);
+        System.out.println("change marker");
     }
 
 }

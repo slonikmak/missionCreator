@@ -3,8 +3,12 @@ package com.oceanos.mapmodule;
 import com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer;
 import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
 import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
+import com.oceanos.mapmodule.model.MapLayer;
+import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -13,8 +17,16 @@ import netscape.javascript.JSObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MapView extends AnchorPane{
+    MapEventListener listener;
+
+    //FIXME: move init to constructor
+    Map<Class<? extends MapLayer>, MapEventListener> listeners = new HashMap<>();
+
     private WebView webView;
     private WebEngine webEngine;
     private JSObject window;
@@ -25,6 +37,8 @@ public class MapView extends AnchorPane{
 
     public MapView(){
         super();
+
+
 
         applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
 
@@ -99,6 +113,13 @@ public class MapView extends AnchorPane{
                         }
                 );
 
+        repository.currentLayerProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.getClass().equals(Marker.class)){
+                listeners.get(Marker.class).handle(newValue);
+            }
+            //listener.handle(newValue);
+        });
+
 
 
     }
@@ -109,6 +130,14 @@ public class MapView extends AnchorPane{
 
     public Repository getRepository(){
         return repository;
+    }
+
+    public void setOnMarkerClick(MapEventListener listener){
+        listeners.put(Marker.class, listener);
+    }
+
+    public interface MapEventListener{
+        void handle(MapLayer layer);
     }
 
 

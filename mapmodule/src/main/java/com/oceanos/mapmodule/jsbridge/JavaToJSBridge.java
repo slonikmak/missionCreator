@@ -28,6 +28,10 @@ public class JavaToJSBridge {
 
     }
 
+    public void changeMarker(int id, double lat, double lng){
+        jsObject.call("changeMarker", id, lat, lng);
+    }
+
     public void addMarker(){
 
     }

@@ -5,17 +5,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Point {
     private DoubleProperty lat;
-    private DoubleProperty lon;
+    private DoubleProperty lng;
 
     public Point(){
         lat = new SimpleDoubleProperty();
-        lon = new SimpleDoubleProperty();
+        lng = new SimpleDoubleProperty();
     }
 
     public Point(double lat, double lon) {
         this();
         this.lat.setValue(lat);
-        this.lon.setValue(lon);
+        this.lng.setValue(lon);
     }
 
     public double getLat() {
@@ -30,15 +30,20 @@ public class Point {
         this.lat.set(lat);
     }
 
-    public double getLon() {
-        return lon.get();
+    public double getLng() {
+        return lng.get();
     }
 
-    public DoubleProperty lonProperty() {
-        return lon;
+    public DoubleProperty lngProperty() {
+        return lng;
     }
 
-    public void setLon(double lon) {
-        this.lon.set(lon);
+    public void setLng(double lng) {
+        this.lng.set(lng);
+    }
+
+    public void setLatLng(double lat, double lng){
+        this.lat.setValue(lat);
+        this.lng.setValue(lng);
     }
 }
