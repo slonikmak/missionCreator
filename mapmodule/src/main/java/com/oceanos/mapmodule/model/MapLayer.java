@@ -1,19 +1,25 @@
 package com.oceanos.mapmodule.model;
 
+import com.oceanos.mapmodule.geometry.GeometryType;
+import com.oceanos.mapmodule.geometry.MapGeometry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public abstract class MapLayer {
-    GeometryType type;
-    ObservableList<Point> points = FXCollections.observableArrayList();
+    private MapGeometry geometry;
     int id;
 
-    public GeometryType getType() {
-        return this.type;
+    public MapLayer(int id, MapGeometry geometry){
+        this.id = id;
+        this.geometry = geometry;
     }
 
-    public ObservableList<Point> pointsProperty() {
-        return points;
+    public GeometryType getType() {
+        return this.geometry.getType();
+    }
+
+    public MapGeometry getGeometry() {
+        return geometry;
     }
 
     public int getId() {

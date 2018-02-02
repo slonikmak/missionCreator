@@ -48,11 +48,11 @@ public class TestApp extends Application {
 
         mapView.setOnMarkerClick((l)->{
             currentMarkerLabel.setText(String.valueOf(l.getId()));
-            lat.setText(String.valueOf(l.pointsProperty().get(0).getLat()));
-            lng.setText(String.valueOf(l.pointsProperty().get(0).getLng()));
+            lat.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLat()));
+            lng.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLng()));
 
             lat.textProperty().addListener((a,b,c)->{
-                l.pointsProperty().get(0).setLat(Double.parseDouble(c));
+                l.getGeometry().getLatLngs().get(0).setLat(Double.parseDouble(c));
             });
 
         });
