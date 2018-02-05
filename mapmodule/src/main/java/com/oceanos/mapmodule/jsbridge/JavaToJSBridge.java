@@ -28,8 +28,22 @@ public class JavaToJSBridge {
 
     }
 
-    public void changeMarker(int id, double lat, double lng){
+    public void changeMarker(int id, double lat, double lng) {
+
+        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f", id, lat, lng);
         jsObject.call("changeMarker", id, lat, lng);
+        /*try {
+            throw new Exception("ooooo"){
+
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    public void changeMarker(Marker marker){
+        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f \n", marker.getId(), marker.getLat(), marker.getLng());
+        jsObject.call("changeMarker", marker.getId(), marker.getLat(), marker.getLng());
     }
 
     public void addMarker(){

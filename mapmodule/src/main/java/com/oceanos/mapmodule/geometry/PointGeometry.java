@@ -6,13 +6,13 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class PointGeometry extends MapGeometry {
 
-    private ObjectProperty<LatLng> latLng;
+    //private ObjectProperty<LatLng> latLng;
 
 
 
     public PointGeometry() {
         super(GeometryType.POINT);
-        latLng = new SimpleObjectProperty<>();
+        //latLng = new SimpleObjectProperty<>();
     }
 
     public PointGeometry(double lat, double lng){
@@ -25,6 +25,7 @@ public class PointGeometry extends MapGeometry {
     }
 
     public void setLatLng(LatLng latLng){
-        this.getLatLngs().set(0, latLng);
+        if (getLatLngs().size() == 0) this.getLatLngs().add(latLng);
+        else this.getLatLngs().set(0, latLng);
     }
 }

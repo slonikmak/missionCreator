@@ -8,8 +8,8 @@ public class LatLng {
     private DoubleProperty lng;
 
     public LatLng(double lat, double lng){
-        this.lng = new SimpleDoubleProperty(lat);
-        this.lat = new SimpleDoubleProperty(lng);
+        this.lat = new SimpleDoubleProperty(lat);
+        this.lng = new SimpleDoubleProperty(lng);
 
     }
 

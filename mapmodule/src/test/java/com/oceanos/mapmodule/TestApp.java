@@ -66,13 +66,7 @@ public class TestApp extends Application {
 
         primaryStage.show();
 
-        SimpleDoubleProperty p = new SimpleDoubleProperty();
-        p.addListener((a,b,c)-> System.out.println("ddddddddddd"));
 
-        p.set(4);
-        p.setValue(5);
-
-        p.getBean();
     }
 
     public static void main(String[] args) {

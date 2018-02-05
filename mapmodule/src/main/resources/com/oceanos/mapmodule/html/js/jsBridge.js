@@ -16,8 +16,8 @@ var jsToJavaBridge = {
     },
 
     changeMarker: function (id, newLat,newLng) {
-        javaBridge.logMsg("change marker ["+id+"]");
-        group.getLayer(id).setLatLng(L.latLng(newLat, newLng))
+        javaBridge.logMsg("change marker "+id+" "+newLat+" "+newLng);
+        //group.getLayer(id).setLatLng(L.latLng(newLat, newLng))
     }
 
 

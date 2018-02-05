@@ -13,6 +13,7 @@ var javaBridge = {
     },
 
     changeMarker: function (id, lat, lng) {
+        this.logMsg("[JS] From JS to Java change marker "+id+" "+lat+" "+lng);
         javaController.changeMarker(id, lat, lng);
     }
 

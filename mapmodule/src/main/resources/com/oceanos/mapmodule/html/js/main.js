@@ -41,8 +41,10 @@ $(function () {
             });
 
             marker.on('dragend', function (event) {
-                javaBridge.changeMarker(marker._leaflet_id, e.latlng.lat, e.latlng.lng)
+                console.log(event.target.getLatLng().lat);
+                javaBridge.changeMarker(marker._leaflet_id, event.target.getLatLng().lat, event.target.getLatLng().lng)
             })
+
 
     })
 
