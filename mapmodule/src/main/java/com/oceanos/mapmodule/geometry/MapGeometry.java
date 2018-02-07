@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
 public abstract class MapGeometry {
-    private ObservableList<LatLng> geometry;
+    /*private ObservableList<LatLng> geometry;
     private GeometryType type;
 
     public MapGeometry(GeometryType type){
@@ -25,5 +25,5 @@ public abstract class MapGeometry {
 
     public GeometryType getType() {
         return type;
-    }
+    }*/
 }

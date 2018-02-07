@@ -116,7 +116,7 @@ public class MapView extends AnchorPane{
         repository.currentLayerProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
             if (newValue.getClass().equals(Marker.class)){
-                System.out.printf("[JAVA] click marker %d %f %f\n", newValue.getId(), ((Marker)newValue).getLat(), ((Marker)newValue).getLng());
+                System.out.printf("[JAVA] click marker %d %f %f\n", newValue.getId(), ((Marker)newValue).getLatLng().getLat(), ((Marker)newValue).getLatLng().getLng());
                 listeners.get(Marker.class).handle(newValue);
             }
             //listener.handle(newValue);

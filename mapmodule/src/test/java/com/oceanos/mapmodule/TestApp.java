@@ -1,9 +1,9 @@
 package com.oceanos.mapmodule;
 
+import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.Marker;
 import javafx.application.Application;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -50,14 +50,14 @@ public class TestApp extends Application {
 
         mapView.setOnMarkerClick((l)->{
             currentMarkerLabel.setText(String.valueOf(l.getId()));
-            lat.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLat()));
-            lng.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLng()));
+            lat.setText(String.valueOf(((Marker)l).getLatLng().getLat()));
+            lng.setText(String.valueOf(((Marker)l).getLatLng().getLng()));
 
 
         });
 
         lat.textProperty().addListener((a,b,c)->{
-            ((Marker)mapView.getRepository().currentLayerProperty().getValue()).setLat(Double.parseDouble(c));
+            ((Marker)mapView.getRepository().currentLayerProperty().getValue()).setLatLng(new LatLng(Double.parseDouble(c), ((Marker)mapView.getRepository().currentLayerProperty().getValue()).getLatLng().getLng()));
         });
         borderPane.setBottom(hBox);
 

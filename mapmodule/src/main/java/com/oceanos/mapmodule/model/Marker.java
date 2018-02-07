@@ -2,14 +2,10 @@ package com.oceanos.mapmodule.model;
 
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
-public class Marker extends MapLayer{
-
+public class Marker extends ObservableLayer<LatLng>{
 
     private JavaToJSBridge javaToJSBridge;
     private String popup;
@@ -45,9 +41,10 @@ public class Marker extends MapLayer{
         this.javaToJSBridge = javaToJSBridge;
     }
 
-
-
-
+    @Override
+    public LatLng getValue() {
+        return latLng.getValue();
+    }
 
 
     enum Event{

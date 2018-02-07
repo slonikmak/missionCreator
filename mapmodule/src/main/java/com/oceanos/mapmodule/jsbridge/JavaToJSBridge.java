@@ -42,8 +42,8 @@ public class JavaToJSBridge {
     }
 
     public void changeMarker(Marker marker){
-        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f \n", marker.getId(), marker.getLat(), marker.getLng());
-        jsObject.call("changeMarker", marker.getId(), marker.getLat(), marker.getLng());
+        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f \n", marker.getId(), marker.getLatLng().getLat(), marker.getLatLng().getLng());
+        jsObject.call("changeMarker", marker.getId(), marker.getLatLng().getLat(), marker.getLatLng().getLng());
     }
 
     public void bindPopup(Marker marker){

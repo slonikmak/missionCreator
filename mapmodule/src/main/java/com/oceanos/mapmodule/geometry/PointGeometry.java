@@ -8,7 +8,7 @@ public class PointGeometry extends MapGeometry {
 
     //private ObjectProperty<LatLng> latLng;
 
-
+/*
 
     public PointGeometry() {
         super(GeometryType.POINT);
@@ -27,5 +27,5 @@ public class PointGeometry extends MapGeometry {
     public void setLatLng(LatLng latLng){
         if (getLatLngs().size() == 0) this.getLatLngs().add(latLng);
         else this.getLatLngs().set(0, latLng);
-    }
+    }*/
 }

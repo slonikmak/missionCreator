@@ -5,12 +5,17 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-public interface ObservableLayer  extends ObservableValue<LatLng> {
-    ChangeListener<? super LatLng> changeListener = null;
+public abstract class ObservableLayer<LatLng> extends MapLayer implements ObservableValue<LatLng> {
+
+    private ChangeListener<? super LatLng> changeListener = null;
+
+    public ObservableLayer(int id) {
+        super(id);
+    }
 
 
     @Override
-    default void addListener(ChangeListener<? super LatLng> listener) {
+    public void addListener(ChangeListener<? super LatLng> listener) {
         changeListener = listener;
     }
 

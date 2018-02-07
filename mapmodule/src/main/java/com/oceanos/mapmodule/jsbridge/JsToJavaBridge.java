@@ -34,22 +34,22 @@ public class JsToJavaBridge {
 
 
         //TODO: move MapLayer
-        marker.getGeometry().getLatLngs().addListener((ListChangeListener<LatLng>) change -> {
+        /*marker.getGeometry().getLatLngs().addListener((ListChangeListener<LatLng>) change -> {
 
-                    /*System.out.println("Detected a change! ");*/
+                    *//*System.out.println("Detected a change! ");*//*
                     while (change.next()) {
-                        /*System.out.println("Was added? " + change.wasAdded());
+                        *//*System.out.println("Was added? " + change.wasAdded());
                         System.out.println("Was removed? " + change.wasRemoved());
                         System.out.println("Was replaced? " + change.wasReplaced());
                         System.out.println("Was permutated? " + change.wasPermutated());
-                        System.out.println("Was updated?"+ change.wasUpdated());*/
+                        System.out.println("Was updated?"+ change.wasUpdated());*//*
                         if (change.wasUpdated()) {
                             System.out.println("[JAVA] Marker changes "+marker.getId());
                             javaToJSBridge.changeMarker(marker);
                         }
                     }
                 }
-        );
+        );*/
     }
 
     public void clickMarker(int id) {
@@ -58,7 +58,7 @@ public class JsToJavaBridge {
     }
 
     public void changeMarker(int id, double lat, double lng) {
-        repository.getLayers().filtered(l -> l.getId() == id).get(0).getGeometry().getLatLngs().get(0).setLatLng(lat, lng);
+        ((Marker)repository.getLayers().filtered(l -> l.getId() == id).get(0)).setLatLng(new LatLng(lat, lng));
         System.out.printf("[JAVA] From Js to Java change marker %d %f %f\n", id, lat, lng);
     }
 
