@@ -29,22 +29,29 @@ $(function () {
 
     map.on("click",function (e) {
 
+            console.log(e.target instanceof L.Marker);
+
             javaBridge.logMsg("click")
             var marker = L.marker(e.latlng,{draggable:true}).addTo(map);
 
             javaBridge.logMsg("try add from js "+marker._leaflet_id+" "+e.latlng.lat);
             javaBridge.addMarker(marker._leaflet_id, e.latlng.lat, e.latlng.lng);
 
-            marker.on('click', function (event) {
-                console.log("click marker");
-                javaBridge.clickMarker(marker._leaflet_id);
+            marker.on('click ', function (event) {
+
             });
 
-            marker.on('dragend', function (event) {
-                console.log(event.target.getLatLng().lat);
-                javaBridge.changeMarker(marker._leaflet_id, event.target.getLatLng().lat, event.target.getLatLng().lng)
+            marker.on('mousedown', function () {
+                console.log("click marker");
+                javaBridge.clickMarker(marker._leaflet_id);
             })
 
+
+
+            marker.on('moveend', function (event) {
+                javaBridge.logMsg("change marker "+event.sourceTarget._leaflet_id +" "+ event.sourceTarget.getLatLng().lat +"  "+ event.sourceTarget.getLatLng().lng);
+                javaBridge.changeMarker(event.sourceTarget._leaflet_id, event.sourceTarget.getLatLng().lat, event.sourceTarget.getLatLng().lng)
+            })
 
     })
 

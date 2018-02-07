@@ -11,12 +11,12 @@ import java.util.Map;
 @org.springframework.stereotype.Repository
 public class Repository {
 
-    ObjectProperty<MapLayer> currentLayer = new SimpleObjectProperty<>();
+    SimpleObjectProperty<MapLayer> currentLayer = new SimpleObjectProperty<>();
 
     ObservableList<MapLayer> layers = FXCollections.observableArrayList();
 
     public void addLayer(MapLayer layer){
-        System.out.println("Layer added: "+layer.getId());
+        System.out.println("[JAVA] Layer added: "+layer.getId());
         layers.add(layer);
     }
 
@@ -29,7 +29,10 @@ public class Repository {
     }
 
     public void setCurrentLayer(int id){
+        System.out.println("[JAVA] Start Set current layer "+id);
+        currentLayer.set(null);
         currentLayer.set(layers.filtered(l->l.getId()==id).get(0));
+        System.out.println("[JAVA] Set current layer "+id);
     }
 
     public ObjectProperty<MapLayer> currentLayerProperty() {

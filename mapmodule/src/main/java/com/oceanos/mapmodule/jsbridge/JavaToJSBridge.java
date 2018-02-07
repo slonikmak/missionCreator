@@ -46,6 +46,10 @@ public class JavaToJSBridge {
         jsObject.call("changeMarker", marker.getId(), marker.getLat(), marker.getLng());
     }
 
+    public void bindPopup(Marker marker){
+        jsObject.call("bindPopup", marker.getId(), marker.getPopup());
+    }
+
     public void addMarker(){
 
     }

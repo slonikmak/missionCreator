@@ -1,14 +1,16 @@
 package com.oceanos.mapmodule.geometry;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Callback;
 
 public abstract class MapGeometry {
     private ObservableList<LatLng> geometry;
     private GeometryType type;
 
     public MapGeometry(GeometryType type){
-        this.geometry = FXCollections.observableArrayList();
+        this.geometry = FXCollections.observableArrayList(param -> new Observable[]{param.latProperty(),param.lngProperty()});
         this.type = type;
     }
 

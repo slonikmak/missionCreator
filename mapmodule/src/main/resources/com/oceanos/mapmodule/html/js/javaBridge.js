@@ -1,7 +1,7 @@
 var javaBridge = {
 
     logMsg: function (msg) {
-        javaController.log("From js: "+msg)
+        javaController.log("[JS] "+msg)
     },
 
     addMarker: function (id, lat, lng) {
@@ -13,7 +13,6 @@ var javaBridge = {
     },
 
     changeMarker: function (id, lat, lng) {
-        this.logMsg("[JS] From JS to Java change marker "+id+" "+lat+" "+lng);
         javaController.changeMarker(id, lat, lng);
     }
 

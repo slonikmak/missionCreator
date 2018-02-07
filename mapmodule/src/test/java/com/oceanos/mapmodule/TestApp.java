@@ -1,5 +1,6 @@
 package com.oceanos.mapmodule;
 
+import com.oceanos.mapmodule.model.Marker;
 import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -30,13 +31,14 @@ public class TestApp extends Application {
 
         btn.setOnAction((e)->mapView.addMarker());
 
-        Button btn2 = new Button("change");
+        Button btn2 = new Button("bind Popup");
 
-        /*btn.setOnAction((e)->{
-            mapView.getRepository().getLayers().get(0).pointsProperty().get(0).latProperty().add(0.001);
-        });*/
+        btn2.setOnAction((e)->{
+            ((Marker)mapView.getRepository().currentLayerProperty().getValue()).bindPopup("OOOOOO");
+        });
 
         hBox.getChildren().add(btn);
+        hBox.getChildren().add(btn2);
 
         Label currentMarkerLabel = new Label();
 
@@ -51,12 +53,12 @@ public class TestApp extends Application {
             lat.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLat()));
             lng.setText(String.valueOf(l.getGeometry().getLatLngs().get(0).getLng()));
 
-            lat.textProperty().addListener((a,b,c)->{
-                l.getGeometry().getLatLngs().get(0).setLat(Double.parseDouble(c));
-            });
 
         });
 
+        lat.textProperty().addListener((a,b,c)->{
+            ((Marker)mapView.getRepository().currentLayerProperty().getValue()).setLat(Double.parseDouble(c));
+        });
         borderPane.setBottom(hBox);
 
 

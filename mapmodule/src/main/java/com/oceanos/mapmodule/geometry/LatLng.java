@@ -1,44 +1,46 @@
 package com.oceanos.mapmodule.geometry;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
-public class LatLng {
-    private DoubleProperty lat;
-    private DoubleProperty lng;
+
+
+public class LatLng{
+
+    private double lat;
+    private double lng;
+    private double alt;
 
     public LatLng(double lat, double lng){
-        this.lat = new SimpleDoubleProperty(lat);
-        this.lng = new SimpleDoubleProperty(lng);
+        this.lat = lat;
+        this.lng = lng;
 
+    }
+
+    public LatLng(double lat, double lng, double alt){
+        this(lat, lng);
+        this.alt = alt;
     }
 
     public double getLat() {
-        return lat.get();
-    }
-
-    public DoubleProperty latProperty() {
         return lat;
     }
 
     public void setLat(double lat) {
-        this.lat.set(lat);
+        this.lat = lat;
     }
 
     public double getLng() {
-        return lng.get();
-    }
-
-    public DoubleProperty lngProperty() {
         return lng;
     }
 
     public void setLng(double lng) {
-        this.lng.set(lng);
+        this.lng = lng;
     }
 
-    public void setLatLng(double lat, double lng){
-        this.lat.setValue(lat);
-        this.lng.setValue(lng);
+    public double getAlt() {
+        return alt;
+    }
+
+    public void setAlt(double alt) {
+        this.alt = alt;
     }
 }
