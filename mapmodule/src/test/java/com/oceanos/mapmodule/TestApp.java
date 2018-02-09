@@ -33,12 +33,19 @@ public class TestApp extends Application {
 
         Button btn2 = new Button("bind Popup");
 
+        Button addLineBtn = new Button("add line");
+
+        addLineBtn.setOnAction((e)->{
+            mapView.getJavaToJsBridge().addLine();
+        });
+
         btn2.setOnAction((e)->{
             ((Marker)mapView.getRepository().currentLayerProperty().getValue()).bindPopup("OOOOOO");
         });
 
         hBox.getChildren().add(btn);
         hBox.getChildren().add(btn2);
+        hBox.getChildren().add(addLineBtn);
 
         Label currentMarkerLabel = new Label();
 

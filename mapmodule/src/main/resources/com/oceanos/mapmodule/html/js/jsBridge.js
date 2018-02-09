@@ -20,7 +20,13 @@ var jsToJavaBridge = {
     },
 
     bindPopup: function (id, msg) {
-        group.getLayer(id).bindPopup(id+" Layer").openPopup();
+        group.getLayer(id).bindTooltip(id+msg+group.getLayer(id).getLatLng().lat);
+
+    },
+
+    addLine: function (l) {
+        console.log(l);
+        console.log(JSON.parse(l));
     }
 
 

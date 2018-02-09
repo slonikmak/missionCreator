@@ -27,6 +27,7 @@ $(function () {
         }
     });
 
+    //TODO: перенести методы создания и изменения слоёв в отдельный объект
     map.on("click",function (e) {
 
             console.log(e.target instanceof L.Marker);
@@ -44,6 +45,10 @@ $(function () {
             marker.on('mousedown', function () {
                 console.log("click marker");
                 javaBridge.clickMarker(marker._leaflet_id);
+            })
+
+            marker.on('move', function () {
+                marker.getTooltip().setContent("lat "+marker.getLatLng().lat)
             })
 
 

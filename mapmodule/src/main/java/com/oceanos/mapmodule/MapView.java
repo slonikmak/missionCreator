@@ -138,9 +138,14 @@ public class MapView extends AnchorPane{
         listeners.put(Marker.class, listener);
     }
 
+    public JavaToJSBridge getJavaToJsBridge(){
+        return javaToJsBridge;
+    }
+
     public interface MapEventListener{
         void handle(MapLayer layer);
     }
+
 
 
 }
