@@ -1,6 +1,7 @@
 package com.oceanos.mapmodule.jsbridge;
 
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
 import javafx.beans.value.ChangeListener;
@@ -8,13 +9,23 @@ import javafx.collections.ListChangeListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class JsToJavaBridge {
 
-    @Autowired
     Repository repository;
-    @Autowired
     JavaToJSBridge javaToJSBridge;
+    MapView mapView;
+
+    public void setMapView(MapView mapView) {
+        this.mapView = mapView;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
+
+    public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
+        this.javaToJSBridge = javaToJSBridge;
+    }
 
     public void log(String msg) {
         System.out.println(msg);
@@ -26,11 +37,11 @@ public class JsToJavaBridge {
     }
 
     public void addMarker(int id, double lat, double lng) {
-
+/*
         System.out.printf("[JAVA] add marker from JS %d %f %f\n", id, lat, lng);
         Marker marker = new Marker(id, lat, lng);
         repository.addLayer(marker);
-        marker.setJavaToJSBridge(javaToJSBridge);
+        marker.setJavaToJSBridge(javaToJSBridge);*/
 
 
         //TODO: move MapLayer
@@ -60,6 +71,10 @@ public class JsToJavaBridge {
     public void changeMarker(int id, double lat, double lng) {
         ((Marker)repository.getLayers().filtered(l -> l.getId() == id).get(0)).setLatLng(new LatLng(lat, lng));
         System.out.printf("[JAVA] From Js to Java change marker %d %f %f\n", id, lat, lng);
+    }
+
+    public void clickToMap(double lat, double lng){
+        mapView.addMarker(lat, lng);
     }
 
 

@@ -14,6 +14,11 @@ var javaBridge = {
 
     changeMarker: function (id, lat, lng) {
         javaController.changeMarker(id, lat, lng);
+    },
+
+
+    clickToMap: function (latLng) {
+        javaController.clickToMap(latLng.lat, latLng.lng);
     }
 
 };

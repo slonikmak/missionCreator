@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 
 import java.util.Map;
 
-@org.springframework.stereotype.Repository
 public class Repository {
 
     SimpleObjectProperty<MapLayer> currentLayer = new SimpleObjectProperty<>();

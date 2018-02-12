@@ -11,16 +11,18 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class JavaToJSBridge {
 
-    @Autowired
     private Repository repository;
     private JSObject jsObject;
     private Gson gson;
 
     public JavaToJSBridge(){
         gson = new Gson();
+    }
+
+    public void setRepository(Repository repository){
+        this.repository = repository;
     }
 
     public void setJsObject(JSObject jsObject) {
@@ -31,11 +33,10 @@ public class JavaToJSBridge {
         jsObject.call("echo", msg);
     }
 
-    public void addMarker(double lat, double lng){
+    public int addMarker(double lat, double lng){
         int id = (int) jsObject.call("addMarker", lat,lng);
-        repository.addLayer(new Marker(id, lat, lng));
         System.out.println(repository.getLayers().size());
-
+        return id;
     }
 
     public void changeMarker(int id, double lat, double lng) {
@@ -60,12 +61,15 @@ public class JavaToJSBridge {
         jsObject.call("bindPopup", marker.getId(), marker.getPopup());
     }
 
+    public void bindTooltip(Marker marker){
+        jsObject.call("bindTooltip", marker.getId(), marker.getTooltip());
+    }
+
     public void addMarker(){
 
     }
 
     public void addLine(){
-        SimpleObj o = new SimpleObj("name",5);
         //System.out.println(o);
         List<LatLng> list = new ArrayList();
         list.add(new LatLng(45.51, -122.68));
@@ -79,29 +83,15 @@ public class JavaToJSBridge {
         System.out.println(o);
     }
 
-    public class SimpleObj{
-        String name;
-        int age;
-
-        public SimpleObj(String name, int age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        @Override
-        public String toString() {
-            return "{\"" +
-                    "name\":\"" + name  +
-                    "\", \"age\":" + age +
-                    '}';
-        }
+    public int getMapId(){
+        return (int) jsObject.call("getMapId");
     }
+
+
+    public void showPopup(Marker marker) {
+        System.out.println("[JAVA] show popup");
+        jsObject.call("showPopup", marker.getId());
+    }
+
+
 }

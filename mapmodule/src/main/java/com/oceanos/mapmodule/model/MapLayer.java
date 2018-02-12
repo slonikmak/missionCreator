@@ -3,8 +3,8 @@ package com.oceanos.mapmodule.model;
 
 
 public abstract class MapLayer{
-    private String name;
-    private int id;
+    String name;
+    int id;
 
     public MapLayer(int id){
         this.id = id;

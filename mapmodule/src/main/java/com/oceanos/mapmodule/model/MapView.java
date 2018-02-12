@@ -1,14 +1,15 @@
-package com.oceanos.mapmodule;
+package com.oceanos.mapmodule.model;
 
 import com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer;
+import com.oceanos.mapmodule.events.EventType;
+import com.oceanos.mapmodule.events.MapEventListener;
+import com.oceanos.mapmodule.events.MouseEvent;
+import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
 import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
 import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -21,11 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MapView extends AnchorPane{
-    MapEventListener listener;
+public class MapView extends MapLayer {
 
     //FIXME: move init to constructor
-    Map<Class<? extends MapLayer>, MapEventListener> listeners = new HashMap<>();
+    Map<EventType, MapEventListener> listeners = new HashMap<>();
+
+    private AnchorPane view;
 
     private WebView webView;
     private WebEngine webEngine;
@@ -33,44 +35,47 @@ public class MapView extends AnchorPane{
     private ApplicationContext applicationContext;
 
     private JavaToJSBridge javaToJsBridge;
+    private JsToJavaBridge jsToJavaBridge;
     private Repository repository;
 
-    public MapView(){
-        super();
+    public MapView() {
+        super(0);
 
+        //applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
 
+        repository = new Repository();
 
-        applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
-
-        repository = applicationContext.getBean(Repository.class);
-
-        setMaxWidth(Integer.MAX_VALUE);
-        setMaxHeight(Integer.MAX_VALUE);
+        intView();
 
         initWebView();
 
-        getChildren().add(webView);
-
-        webView.setMaxHeight(Integer.MAX_VALUE);
-        webView.setMaxWidth(Integer.MAX_VALUE);
-
-        setBottomAnchor(webView, 0d);
-        setTopAnchor(webView, 0d);
-        setRightAnchor(webView, 0d);
-        setLeftAnchor(webView, 0d);
 
     }
 
-    private void initWebView(){
+    private void intView() {
+        view = new AnchorPane();
+        view.setMaxWidth(Integer.MAX_VALUE);
+        view.setMaxHeight(Integer.MAX_VALUE);
+    }
+
+    private void initWebView() {
 
         webView = new WebView();
+        view.getChildren().add(webView);
+
+        webView.setMaxHeight(Integer.MAX_VALUE);
+        webView.setMaxWidth(Integer.MAX_VALUE);
+        AnchorPane.setBottomAnchor(webView, 0d);
+        AnchorPane.setTopAnchor(webView, 0d);
+        AnchorPane.setRightAnchor(webView, 0d);
+        AnchorPane.setLeftAnchor(webView, 0d);
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(getClass().getResource("/com/oceanos/mapmodule/html/mapview.html").toExternalForm());
 
-        webEngine.setOnError((e)->{
+       /* webEngine.setOnError((e) -> {
             System.out.println("error");
-        });
+        });*/
 
         webEngine.getLoadWorker()
                 .stateProperty()
@@ -85,14 +90,20 @@ public class MapView extends AnchorPane{
                                     e.printStackTrace();
                                 }*/
                                 window = (JSObject) webEngine.executeScript("window");
-                                javaToJsBridge = applicationContext.getBean(JavaToJSBridge.class);
-                                window.setMember("javaController", applicationContext.getBean(JsToJavaBridge.class));
+                                javaToJsBridge = new JavaToJSBridge();
+                                javaToJsBridge.setRepository(repository);
+
+                                jsToJavaBridge = new JsToJavaBridge();
+                                jsToJavaBridge.setJavaToJSBridge(javaToJsBridge);
+                                jsToJavaBridge.setRepository(repository);
+                                jsToJavaBridge.setMapView(this);
+                                window.setMember("javaController", jsToJavaBridge);
                                 //window.setMember("console", applicationContext.getBean(JsToJavaBridge.class));
                                 JSObject jsToJava = (JSObject) webEngine.executeScript("jsToJavaBridge");
                                 //jsToJava.call("echo","echo");
                                 javaToJsBridge.setJsObject(jsToJava);
                                 javaToJsBridge.echo("echo");
-
+                                //id = javaToJsBridge.getMapId();
 
 
                                 //jsBridge.initJavaController();
@@ -118,39 +129,53 @@ public class MapView extends AnchorPane{
 
         repository.currentLayerProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
-            if (newValue.getClass().equals(Marker.class)){
-                System.out.printf("[JAVA] click marker %d %f %f\n", newValue.getId(), ((Marker)newValue).getLatLng().getLat(), ((Marker)newValue).getLatLng().getLng());
-                listeners.get(Marker.class).handle(newValue);
+            if (newValue.getClass().equals(Marker.class)) {
+                System.out.printf("[JAVA] click marker %d %f %f\n", newValue.getId(), ((Marker) newValue).getLatLng().getLat(), ((Marker) newValue).getLatLng().getLng());
+                //listeners.get(Marker.class).handle(newValue);
+                ((Marker) newValue).fireEvent(EventType.CLICK);
             }
             //listener.handle(newValue);
         });
 
 
-
     }
 
-    public void addMarker(){
-        javaToJsBridge.addMarker(51.505, -0.09);
+    public Marker addMarker() {
+        return addMarker(51.505, -0.09);
     }
 
-    public Repository getRepository(){
+    public Marker addMarker(double lat, double lng) {
+        //int id = javaToJsBridge.addMarker(lat, lng);
+        Marker marker = new Marker(lat, lng, javaToJsBridge);
+        marker.bindPopup("Bind");
+        marker.addEventListner(EventType.CLICK, (e) -> {
+            marker.showPopup();
+            System.out.println("Bind click");
+        });
+        repository.addLayer(marker);
+        return marker;
+    }
+
+    public Repository getRepository() {
         return repository;
     }
 
-    public void setOnMarkerClick(MapEventListener listener){
-        listeners.put(Marker.class, listener);
-    }
 
-
-
-    public JavaToJSBridge getJavaToJsBridge(){
+    public JavaToJSBridge getJavaToJsBridge() {
         return javaToJsBridge;
     }
 
-
-
-    public interface MapEventListener{
-        void handle(MapLayer layer);
+    public void addEventListener(EventType type, MapEventListener listener) {
+        listeners.put(type, listener);
     }
+
+    public void fireEvent(EventType type, LatLng latLng) {
+        listeners.get(type).handle(new MouseEvent(type, latLng));
+    }
+
+    public AnchorPane getView() {
+        return this.view;
+    }
+
 
 }

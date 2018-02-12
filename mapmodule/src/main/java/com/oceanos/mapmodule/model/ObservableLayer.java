@@ -7,7 +7,7 @@ import javafx.beans.value.ObservableValue;
 
 public abstract class ObservableLayer<LatLng> extends MapLayer implements ObservableValue<LatLng> {
 
-    private ChangeListener<? super LatLng> changeListener = null;
+    ChangeListener<? super LatLng> changeListener = null;
 
     public ObservableLayer(int id) {
         super(id);

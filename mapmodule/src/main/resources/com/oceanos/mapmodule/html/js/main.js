@@ -31,7 +31,8 @@ $(function () {
 
     //TODO: перенести методы создания и изменения слоёв в отдельный объект
     map.on("click",function (e) {
-
+        javaBridge.clickToMap(e.latlng);
+/*
 
             //console.log(e.getSome());
 
@@ -59,7 +60,7 @@ $(function () {
             marker.on('moveend', function (event) {
                 javaBridge.logMsg("change marker "+event.sourceTarget._leaflet_id +" "+ event.sourceTarget.getLatLng().lat +"  "+ event.sourceTarget.getLatLng().lng);
                 javaBridge.changeMarker(event.sourceTarget._leaflet_id, event.sourceTarget.getLatLng().lat, event.sourceTarget.getLatLng().lng)
-            })
+            })*/
 
     })
 
@@ -68,3 +69,4 @@ $(function () {
 
 
 });
+

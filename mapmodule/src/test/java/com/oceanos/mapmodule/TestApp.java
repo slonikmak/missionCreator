@@ -1,6 +1,8 @@
 package com.oceanos.mapmodule;
 
+import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import javafx.application.Application;
 
@@ -8,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -21,7 +24,8 @@ public class TestApp extends Application {
 
         MapView mapView = new MapView();
 
-        borderPane.setCenter(mapView);
+
+        borderPane.setCenter(mapView.getView());
 
         HBox hBox = new HBox();
 
@@ -62,12 +66,16 @@ public class TestApp extends Application {
         hBox.getChildren().add(currentMarkerLabel);
         hBox.getChildren().addAll(lat, lng);
 
-        mapView.setOnMarkerClick((l)->{
+        /*mapView.setOnMarkerClick((l)->{
             currentMarkerLabel.setText(String.valueOf(l.getId()));
             lat.setText(String.valueOf(((Marker)l).getLatLng().getLat()));
             lng.setText(String.valueOf(((Marker)l).getLatLng().getLng()));
 
 
+        });*/
+
+        mapView.addEventListener(EventType.CLICK, (e)->{
+            mapView.addMarker(e.getLatLng().lat, e.getLatLng().getLng());
         });
 
         lat.textProperty().addListener((a,b,c)->{

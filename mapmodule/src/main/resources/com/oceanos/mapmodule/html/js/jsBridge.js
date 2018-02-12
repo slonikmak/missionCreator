@@ -7,9 +7,10 @@ var jsToJavaBridge = {
 
     addMarker: function (lat, lng) {
 
-            var marker = L.marker([lat, lng]).addTo(obj.map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
+            var marker = L.marker([lat, lng]).addTo(obj.map);
+            marker.on("click", function (event) {
+                javaBridge.clickMarker(marker._leaflet_id);
+            })
         //javaBridge.logMsg("add marker "+id+" "+lat+" "+lng);
             return marker._leaflet_id;
     },
@@ -20,8 +21,12 @@ var jsToJavaBridge = {
     },
 
     bindPopup: function (id, msg) {
-        group.getLayer(id).bindTooltip(id+msg+group.getLayer(id).getLatLng().lat);
+        group.getLayer(id).bindPopup("id "+id+" msg "+msg);
+        console.log(group.getLayer(id).getPopup().getContent())
+    },
 
+    bindTooltip: function (id, msg) {
+        group.getLayer(id).bindTooltip("id "+id+" msg "+msg);
     },
 
     addLine: function (l) {
@@ -41,6 +46,15 @@ var jsToJavaBridge = {
         })
 
         return line._leaflet_id;
+    },
+    getMapId: function () {
+        console.log(obj.map);
+        return obj.map._leaflet_id;
+    },
+
+    showPopup: function (id) {
+        console.log("show "+group.getLayer(id).getPopup().getContent());
+        group.getLayer(id).openPopup();
     }
 
 
