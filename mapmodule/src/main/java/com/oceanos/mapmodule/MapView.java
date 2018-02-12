@@ -68,6 +68,9 @@ public class MapView extends AnchorPane{
         webEngine.setJavaScriptEnabled(true);
         webEngine.load(getClass().getResource("/com/oceanos/mapmodule/html/mapview.html").toExternalForm());
 
+        webEngine.setOnError((e)->{
+            System.out.println("error");
+        });
 
         webEngine.getLoadWorker()
                 .stateProperty()
@@ -138,14 +141,16 @@ public class MapView extends AnchorPane{
         listeners.put(Marker.class, listener);
     }
 
+
+
     public JavaToJSBridge getJavaToJsBridge(){
         return javaToJsBridge;
     }
 
+
+
     public interface MapEventListener{
         void handle(MapLayer layer);
     }
-
-
 
 }

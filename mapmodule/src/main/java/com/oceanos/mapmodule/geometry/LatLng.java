@@ -5,8 +5,8 @@ package com.oceanos.mapmodule.geometry;
 
 public class LatLng{
 
-    private double lat;
-    private double lng;
+    public double lat;
+    public double lng;
     private double alt;
 
     public LatLng(double lat, double lng){

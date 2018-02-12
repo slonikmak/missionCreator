@@ -1,10 +1,15 @@
 package com.oceanos.mapmodule.jsbridge;
 
+import com.google.gson.Gson;
+import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JavaToJSBridge {
@@ -12,6 +17,11 @@ public class JavaToJSBridge {
     @Autowired
     private Repository repository;
     private JSObject jsObject;
+    private Gson gson;
+
+    public JavaToJSBridge(){
+        gson = new Gson();
+    }
 
     public void setJsObject(JSObject jsObject) {
         this.jsObject = jsObject;
@@ -56,8 +66,17 @@ public class JavaToJSBridge {
 
     public void addLine(){
         SimpleObj o = new SimpleObj("name",5);
+        //System.out.println(o);
+        List<LatLng> list = new ArrayList();
+        list.add(new LatLng(45.51, -122.68));
+        list.add(new LatLng(37.77, -122.43));
+
+        jsObject.call("addLine", gson.toJson(list));
+    }
+
+    public void startPolyLine() {
+        Object o = jsObject.call("startPolyline");
         System.out.println(o);
-        jsObject.call("addLine", o);
     }
 
     public class SimpleObj{
@@ -67,6 +86,14 @@ public class JavaToJSBridge {
         public SimpleObj(String name, int age) {
             this.name = name;
             this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getAge() {
+            return age;
         }
 
         @Override

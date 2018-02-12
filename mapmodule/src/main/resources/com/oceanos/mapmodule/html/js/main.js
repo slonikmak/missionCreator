@@ -6,9 +6,11 @@ $(function () {
 
 
 
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map',{editable: true}).setView([51.505, -0.09], 13);
 
     obj.map = map;
+
+    addToolBar(map);
 
 
     //http://{s}.tiles.mapbox.com/v3/gvenech.m13knc8e/{z}/{x}/{y}.png
@@ -30,7 +32,8 @@ $(function () {
     //TODO: перенести методы создания и изменения слоёв в отдельный объект
     map.on("click",function (e) {
 
-            console.log(e.target instanceof L.Marker);
+
+            //console.log(e.getSome());
 
             javaBridge.logMsg("click")
             var marker = L.marker(e.latlng,{draggable:true}).addTo(map);

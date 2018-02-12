@@ -35,6 +35,12 @@ public class TestApp extends Application {
 
         Button addLineBtn = new Button("add line");
 
+        Button startLineBtn = new Button("start");
+
+        startLineBtn.setOnAction((e)->{
+            mapView.getJavaToJsBridge().startPolyLine();
+        });
+
         addLineBtn.setOnAction((e)->{
             mapView.getJavaToJsBridge().addLine();
         });
@@ -46,6 +52,7 @@ public class TestApp extends Application {
         hBox.getChildren().add(btn);
         hBox.getChildren().add(btn2);
         hBox.getChildren().add(addLineBtn);
+        hBox.getChildren().add(startLineBtn);
 
         Label currentMarkerLabel = new Label();
 
