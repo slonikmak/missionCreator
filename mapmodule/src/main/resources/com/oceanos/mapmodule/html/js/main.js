@@ -27,6 +27,10 @@ $(function () {
             map.panTo(e.layer.getLatLng());
             //javaBridge.addMarker(e.layer._leaflet_id, e.layer.getLatLng().lat,e.layer.getLatLng().lng);
         }
+        if (e.layer instanceof L.Polyline){
+            javaBridge.logMsg("add new PolyLine");
+            group.addLayer(e.layer);
+        }
     });
 
     //TODO: перенести методы создания и изменения слоёв в отдельный объект

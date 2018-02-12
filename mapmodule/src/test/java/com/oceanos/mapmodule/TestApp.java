@@ -4,8 +4,10 @@ import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
+import com.oceanos.mapmodule.model.PolyLine;
 import javafx.application.Application;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class TestApp extends Application {
@@ -33,7 +40,7 @@ public class TestApp extends Application {
 
         Button btn = new Button("add");
 
-        btn.setOnAction((e)->mapView.addMarker());
+
 
         Button btn2 = new Button("bind Popup");
 
@@ -46,7 +53,32 @@ public class TestApp extends Application {
         });
 
         addLineBtn.setOnAction((e)->{
-            mapView.getJavaToJsBridge().addLine();
+            List<LatLng> list = new ArrayList();
+            list.add(new LatLng(45.51, -122.68));
+            list.add(new LatLng(37.77, -122.43));
+            PolyLine line = mapView.addPolyLine(list);
+            btn.setOnAction((event)->{
+                line.addLatLng(new LatLng(46, -123));
+            });
+
+            final LatLng latLng = new LatLng(37.77, -122.43);
+
+            new Thread(()->{
+                while (true){
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    Platform.runLater(()->{
+                        latLng.lat+=1;
+                        latLng.lng+=1;
+                        line.addLatLng(latLng);
+                    });
+                }
+
+            }).start();
+
         });
 
         btn2.setOnAction((e)->{
@@ -75,7 +107,13 @@ public class TestApp extends Application {
         });*/
 
         mapView.addEventListener(EventType.CLICK, (e)->{
-            mapView.addMarker(e.getLatLng().lat, e.getLatLng().getLng());
+            Map<String,Object> opt = new HashMap<>();
+            opt.put("draggable", true);
+            Marker marker = mapView.addMarker(e.getLatLng().lat, e.getLatLng().getLng(), opt);
+            marker.bindTooltip("Tooltip");
+            marker.addEventListner(EventType.MOVE, (event)->{
+                marker.bindTooltip(marker.getId()+ " \n"+marker.getLatLng().lat);
+            });
         });
 
         lat.textProperty().addListener((a,b,c)->{

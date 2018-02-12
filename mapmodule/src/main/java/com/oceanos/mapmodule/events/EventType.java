@@ -1,7 +1,7 @@
 package com.oceanos.mapmodule.events;
 
 public enum EventType {
-    CLICK("click");
+    CLICK("click"), MOVE("move");
 
     String name;
 

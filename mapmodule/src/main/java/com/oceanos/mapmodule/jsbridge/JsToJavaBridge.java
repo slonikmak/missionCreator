@@ -1,5 +1,6 @@
 package com.oceanos.mapmodule.jsbridge;
 
+import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
@@ -69,14 +70,17 @@ public class JsToJavaBridge {
     }
 
     public void changeMarker(int id, double lat, double lng) {
-        ((Marker)repository.getLayers().filtered(l -> l.getId() == id).get(0)).setLatLng(new LatLng(lat, lng));
+        Marker marker = ((Marker)repository.getLayers().filtered(l -> l.getId() == id).get(0));
+        marker.fireEvent(EventType.MOVE);
+        marker.setLatLng(new LatLng(lat, lng));
+
         System.out.printf("[JAVA] From Js to Java change marker %d %f %f\n", id, lat, lng);
+
     }
 
     public void clickToMap(double lat, double lng){
-        mapView.addMarker(lat, lng);
+        mapView.fireEvent(EventType.CLICK, new LatLng(lat, lng));
     }
-
 
 
 }

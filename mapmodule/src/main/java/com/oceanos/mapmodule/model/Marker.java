@@ -18,7 +18,7 @@ public class Marker extends ObservableLayer<LatLng>{
 
     private JavaToJSBridge javaToJSBridge;
     private String popup;
-    private String tooltip;
+    private Tooltip tooltip;
     private ObjectProperty<LatLng> latLng;
 
     Marker(int id, double lat, double lng){
@@ -26,8 +26,9 @@ public class Marker extends ObservableLayer<LatLng>{
         latLng = new SimpleObjectProperty<>(new LatLng(lat, lng));
     }
 
-    Marker(double lat, double lng, JavaToJSBridge javaToJSBridge){
-        super(javaToJSBridge.addMarker(lat, lng));
+
+    Marker(double lat, double lng, Map<String, Object> options, JavaToJSBridge javaToJSBridge){
+        super(javaToJSBridge.addMarker(lat, lng, options));
         this.javaToJSBridge = javaToJSBridge;
         this.latLng = new SimpleObjectProperty<>(new LatLng(lat, lng));
     }
@@ -41,7 +42,7 @@ public class Marker extends ObservableLayer<LatLng>{
     }
 
     public void setLatLng(LatLng latLng) {
-        this.changeListener.changed(this, this.latLng.getValue(), latLng);
+       // this.changeListener.changed(this, this.latLng.getValue(), latLng);
         this.latLng.set(latLng);
     }
 
@@ -51,7 +52,7 @@ public class Marker extends ObservableLayer<LatLng>{
     }
 
     public void bindTooltip(String msg){
-        this.tooltip = msg;
+        this.tooltip = new Tooltip(id, msg);
         javaToJSBridge.bindTooltip(this);
     }
 
@@ -63,7 +64,7 @@ public class Marker extends ObservableLayer<LatLng>{
         return this.popup;
     }
 
-    public String getTooltip() {
+    public Tooltip getTooltip() {
         return tooltip;
     }
 
@@ -80,6 +81,7 @@ public class Marker extends ObservableLayer<LatLng>{
         listeners.put(type, listener);
     }
     public void fireEvent(EventType type){
+        System.out.println("fire");
         listeners.get(type).handle(new MouseEvent(type, latLng.get()));
     }
 

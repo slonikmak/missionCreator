@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JavaToJSBridge {
 
@@ -33,8 +34,8 @@ public class JavaToJSBridge {
         jsObject.call("echo", msg);
     }
 
-    public int addMarker(double lat, double lng){
-        int id = (int) jsObject.call("addMarker", lat,lng);
+    public int addMarker(double lat, double lng, Map<String, Object> options){
+        int id = (int) jsObject.call("addMarker", lat,lng, gson.toJson(options));
         System.out.println(repository.getLayers().size());
         return id;
     }
@@ -62,20 +63,20 @@ public class JavaToJSBridge {
     }
 
     public void bindTooltip(Marker marker){
-        jsObject.call("bindTooltip", marker.getId(), marker.getTooltip());
+        jsObject.call("bindTooltip", marker.getId(), marker.getTooltip().getContent());
     }
 
     public void addMarker(){
 
     }
 
-    public void addLine(){
-        //System.out.println(o);
-        List<LatLng> list = new ArrayList();
-        list.add(new LatLng(45.51, -122.68));
-        list.add(new LatLng(37.77, -122.43));
+    public int addPolyLine(List<LatLng> latLngs){
 
-        jsObject.call("addLine", gson.toJson(list));
+        return (int) jsObject.call("addPolyLine", gson.toJson(latLngs));
+    }
+
+    public void addPointToLine(int id, LatLng latLng){
+        jsObject.call("addPointToLine", id, latLng.lat, latLng.lng);
     }
 
     public void startPolyLine() {

@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,24 +33,18 @@ public class MapView extends MapLayer {
     private WebView webView;
     private WebEngine webEngine;
     private JSObject window;
-    private ApplicationContext applicationContext;
 
     private JavaToJSBridge javaToJsBridge;
     private JsToJavaBridge jsToJavaBridge;
     private Repository repository;
 
     public MapView() {
+        //FIXME: set id from JS
         super(0);
 
-        //applicationContext = new ClassPathXmlApplicationContext("appContext.xml");
-
         repository = new Repository();
-
         intView();
-
         initWebView();
-
-
     }
 
     private void intView() {
@@ -136,24 +131,24 @@ public class MapView extends MapLayer {
             }
             //listener.handle(newValue);
         });
-
-
     }
 
     public Marker addMarker() {
         return addMarker(51.505, -0.09);
     }
 
-    public Marker addMarker(double lat, double lng) {
-        //int id = javaToJsBridge.addMarker(lat, lng);
-        Marker marker = new Marker(lat, lng, javaToJsBridge);
-        marker.bindPopup("Bind");
-        marker.addEventListner(EventType.CLICK, (e) -> {
-            marker.showPopup();
-            System.out.println("Bind click");
-        });
+    public Marker addMarker(double lat, double lng, Map<String, Object> options) {
+        Marker marker = new Marker(lat, lng, options, javaToJsBridge);
         repository.addLayer(marker);
         return marker;
+    }
+
+    public Marker addMarker(double lat, double lng) {
+        return addMarker(lat, lng, new HashMap<>());
+    }
+
+    public PolyLine addPolyLine(List<LatLng> latLngs){
+        return new PolyLine(latLngs, javaToJsBridge);
     }
 
     public Repository getRepository() {

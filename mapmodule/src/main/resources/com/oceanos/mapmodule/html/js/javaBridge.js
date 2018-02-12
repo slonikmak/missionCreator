@@ -19,6 +19,10 @@ var javaBridge = {
 
     clickToMap: function (latLng) {
         javaController.clickToMap(latLng.lat, latLng.lng);
+    },
+
+    moveMarker: function (marker) {
+        javaController.changeMarker(marker._leaflet_id, marker.getLatLng().lat, marker.getLatLng().lng);
     }
 
 };
