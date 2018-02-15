@@ -3,7 +3,7 @@ package com.oceanos.mapmodule.model;
 
 import java.util.Map;
 
-public abstract class MapLayer{
+public abstract class MapLayer extends Evented{
     String name;
     int id;
     Map<String, Object> options;

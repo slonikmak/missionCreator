@@ -5,6 +5,7 @@ var jsToJavaBridge = {
         javaBridge.logMsg(msg)
     },
 
+    //FIXME: options must be prepared json string
     addMarker: function (lat, lng, options) {
         console.log(JSON.parse(options));
 
@@ -65,6 +66,13 @@ var jsToJavaBridge = {
 
     showPopup: function (id) {
         console.log("show " + group.getLayer(id).getPopup().getContent());
+    },
+
+    addCircle: function (lat, lng, radius, options) {
+
+        var circle = L.circle([lat,lng],radius, JSON.parse(options)).addTo(obj.map);
+        console.log("add circle");
+        return circle._leaflet_id;
     }
 
 

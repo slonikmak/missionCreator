@@ -1,6 +1,8 @@
 package com.oceanos.mapmodule.jsbridge;
 
 import com.oceanos.mapmodule.events.EventType;
+import com.oceanos.mapmodule.events.MapEvent;
+import com.oceanos.mapmodule.events.MouseEvent;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
@@ -38,6 +40,8 @@ public class JsToJavaBridge {
     }
 
     public void addMarker(int id, double lat, double lng) {
+
+        //mapView.fireEvent(EventType.ADD, new LatLng());
 /*
         System.out.printf("[JAVA] add marker from JS %d %f %f\n", id, lat, lng);
         Marker marker = new Marker(id, lat, lng);
@@ -71,7 +75,7 @@ public class JsToJavaBridge {
 
     public void changeMarker(int id, double lat, double lng) {
         Marker marker = ((Marker)repository.getLayers().filtered(l -> l.getId() == id).get(0));
-        marker.fireEvent(EventType.MOVE);
+        marker.fireEvent(EventType.MOVE, new MapEvent());
         marker.setLatLng(new LatLng(lat, lng));
 
         System.out.printf("[JAVA] From Js to Java change marker %d %f %f\n", id, lat, lng);
@@ -79,7 +83,11 @@ public class JsToJavaBridge {
     }
 
     public void clickToMap(double lat, double lng){
-        mapView.fireEvent(EventType.CLICK, new LatLng(lat, lng));
+        mapView.fireEvent(EventType.CLICK, new MouseEvent(EventType.CLICK, new LatLng(lat, lng)));
+    }
+
+    public void clickLayer(int id, double lat, double lng){
+        repository.getLayers().filtered(l->l.getId()==id).get(0).fireEvent(EventType.CLICK, new MouseEvent(EventType.CLICK,new LatLng(lat, lng)));
     }
 
 

@@ -9,6 +9,7 @@ import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
 import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
 import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.Marker;
+import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +19,8 @@ import netscape.javascript.JSObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,12 +130,14 @@ public class MapView extends MapLayer {
             if (newValue.getClass().equals(Marker.class)) {
                 System.out.printf("[JAVA] click marker %d %f %f\n", newValue.getId(), ((Marker) newValue).getLatLng().getLat(), ((Marker) newValue).getLatLng().getLng());
                 //listeners.get(Marker.class).handle(newValue);
-                ((Marker) newValue).fireEvent(EventType.CLICK);
+                //((Marker) newValue).fireEvent(EventType.CLICK);
             }
             //listener.handle(newValue);
         });
     }
 
+
+    //TODO: delegate add functions to another object
     public Marker addMarker() {
         return addMarker(51.505, -0.09);
     }
@@ -151,6 +156,14 @@ public class MapView extends MapLayer {
         return new PolyLine(latLngs, javaToJsBridge);
     }
 
+    public Circle addCircle(LatLng latLng, double radius, LayerOptions options){
+        return new Circle(javaToJsBridge, latLng, radius, options);
+    }
+
+    public Circle addCircle(LatLng latLng, double radius){
+        return new Circle(javaToJsBridge,latLng, radius);
+    }
+
     public Repository getRepository() {
         return repository;
     }
@@ -160,16 +173,17 @@ public class MapView extends MapLayer {
         return javaToJsBridge;
     }
 
-    public void addEventListener(EventType type, MapEventListener listener) {
-        listeners.put(type, listener);
-    }
-
-    public void fireEvent(EventType type, LatLng latLng) {
-        listeners.get(type).handle(new MouseEvent(type, latLng));
-    }
-
     public AnchorPane getView() {
         return this.view;
+    }
+
+    public Object exec(String script){
+        return webEngine.executeScript(script);
+    }
+
+    public Object runScript(java.nio.file.Path pathToFile) throws IOException {
+        String s = Files.lines(pathToFile).reduce("", (x, y)->x+y);
+        return exec(s);
     }
 
 

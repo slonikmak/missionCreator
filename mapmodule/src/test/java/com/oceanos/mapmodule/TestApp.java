@@ -1,22 +1,28 @@
 package com.oceanos.mapmodule;
 
+import com.oceanos.mapmodule.editor.JSEditor;
 import com.oceanos.mapmodule.events.EventType;
+import com.oceanos.mapmodule.events.MouseEvent;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.model.PolyLine;
+import com.oceanos.mapmodule.model.options.LayerOptions;
 import javafx.application.Application;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +48,7 @@ public class TestApp extends Application {
 
 
 
-        Button btn2 = new Button("bind Popup");
+        Button testBtn = new Button("test");
 
         Button addLineBtn = new Button("add line");
 
@@ -61,32 +67,19 @@ public class TestApp extends Application {
                 line.addLatLng(new LatLng(46, -123));
             });
 
-            final LatLng latLng = new LatLng(37.77, -122.43);
-
-            new Thread(()->{
-                while (true){
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                    Platform.runLater(()->{
-                        latLng.lat+=1;
-                        latLng.lng+=1;
-                        line.addLatLng(latLng);
-                    });
-                }
-
-            }).start();
-
         });
 
-        btn2.setOnAction((e)->{
-            ((Marker)mapView.getRepository().currentLayerProperty().getValue()).bindPopup("OOOOOO");
+        testBtn.setOnAction((e)->{
+            //System.out.println(mapView.exec("group.getLayers().length"));
+            try {
+                mapView.runScript(Paths.get("C:\\Users\\User\\Desktop\\script.txt"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         });
 
         hBox.getChildren().add(btn);
-        hBox.getChildren().add(btn2);
+        hBox.getChildren().add(testBtn);
         hBox.getChildren().add(addLineBtn);
         hBox.getChildren().add(startLineBtn);
 
@@ -109,11 +102,24 @@ public class TestApp extends Application {
         mapView.addEventListener(EventType.CLICK, (e)->{
             Map<String,Object> opt = new HashMap<>();
             opt.put("draggable", true);
-            Marker marker = mapView.addMarker(e.getLatLng().lat, e.getLatLng().getLng(), opt);
+            Marker marker = mapView.addMarker(((MouseEvent)e).getLatLng().lat, ((MouseEvent)e).getLatLng().getLng(), opt);
             marker.bindTooltip("Tooltip");
-            marker.addEventListner(EventType.MOVE, (event)->{
+            marker.addEventListener(EventType.MOVE, (event)->{
                 marker.bindTooltip(marker.getId()+ " \n"+marker.getLatLng().lat);
             });
+
+            marker.addEventListener(EventType.CLICK, event -> {
+                event.getType();
+                System.out.println("click");
+            });
+
+            LayerOptions options = new LayerOptions();
+            options.add("color", "red");
+            options.add("weight", 5);
+            options.add("fillColor", "green");
+
+            mapView.addCircle(marker.getLatLng(), 200, options);
+
         });
 
         lat.textProperty().addListener((a,b,c)->{
@@ -121,8 +127,21 @@ public class TestApp extends Application {
         });
         borderPane.setBottom(hBox);
 
+        VBox scriptBox = new VBox();
+        JSEditor editor = new JSEditor();
+        Button runScriptBtn = new Button("run");
+        hBox.getChildren().add(editor.getView());
+        hBox.getChildren().add(runScriptBtn);
 
-        Scene scene = new Scene(borderPane, 500, 500);
+        borderPane.setTop(scriptBox);
+
+        runScriptBtn.setOnAction((e)->{
+            System.out.println(editor.getScript());
+            mapView.exec(editor.getScript());
+        });
+
+
+        Scene scene = new Scene(borderPane, 1000, 800);
 
         primaryStage.setScene(scene);
 

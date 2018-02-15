@@ -23,6 +23,10 @@ var javaBridge = {
 
     moveMarker: function (marker) {
         javaController.changeMarker(marker._leaflet_id, marker.getLatLng().lat, marker.getLatLng().lng);
+    },
+
+    clickLayer: function (layer, lat, lng) {
+        javaController.clickLayer(layer._leaflet_id, lat, lng);
     }
 
 };

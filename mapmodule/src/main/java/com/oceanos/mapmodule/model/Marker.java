@@ -12,9 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Marker extends ObservableLayer<LatLng>{
+public class Marker extends MapLayer {
 
-    private Map<EventType, MapEventListener> listeners = new HashMap<>();
 
     private JavaToJSBridge javaToJSBridge;
     private String popup;
@@ -72,18 +71,7 @@ public class Marker extends ObservableLayer<LatLng>{
         this.javaToJSBridge = javaToJSBridge;
     }
 
-    @Override
-    public LatLng getValue() {
-        return latLng.getValue();
-    }
 
-    public void addEventListner(EventType type, MapEventListener listener){
-        listeners.put(type, listener);
-    }
-    public void fireEvent(EventType type){
-        System.out.println("fire");
-        listeners.get(type).handle(new MouseEvent(type, latLng.get()));
-    }
 
 
 }

@@ -166,11 +166,11 @@ function addToolBar(map) {
     toolBars.rectangle = new L.NewRectangleControl();
     toolBars.circle = new L.NewCircleControl();
 
-    map.addControl(toolBars.marker);
+    /*map.addControl(toolBars.marker);
     map.addControl(toolBars.line);
     map.addControl(toolBars.polygon);
     map.addControl(toolBars.rectangle);
-    map.addControl(toolBars.circle);
+    map.addControl(toolBars.circle);*/
 
     return toolBars;
 }

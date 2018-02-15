@@ -3,6 +3,7 @@ package com.oceanos.mapmodule.jsbridge;
 import com.google.gson.Gson;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.Marker;
+import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,10 @@ public class JavaToJSBridge {
         int id = (int) jsObject.call("addMarker", lat,lng, gson.toJson(options));
         System.out.println(repository.getLayers().size());
         return id;
+    }
+
+    public int addCircle(LatLng latLng, double radius, LayerOptions options){
+        return (int) jsObject.call("addCircle", latLng.lat, latLng.lng, radius, gson.toJson(options.getOptions()));
     }
 
     public void changeMarker(int id, double lat, double lng) {
@@ -81,7 +86,7 @@ public class JavaToJSBridge {
 
     public void startPolyLine() {
         Object o = jsObject.call("startPolyline");
-        System.out.println(o);
+        System.out.println("obj:"+o);
     }
 
     public int getMapId(){

@@ -6,7 +6,7 @@ $(function () {
 
 
 
-    var map = L.map('map',{editable: true}).setView([51.505, -0.09], 13);
+    var map = L.map('map',{editable: true, preferCanvas: true}).setView([51.505, -0.09], 13);
 
     obj.map = map;
 
@@ -21,6 +21,7 @@ $(function () {
 
 
     map.on("layeradd ", function (e) {
+
         if (e.layer instanceof L.Marker){
             javaBridge.logMsg("add new Marker");
             group.addLayer(e.layer);
@@ -31,6 +32,10 @@ $(function () {
             javaBridge.logMsg("add new PolyLine");
             group.addLayer(e.layer);
         }
+
+        e.layer.on('click', function (event) {
+            javaBridge.clickLayer(e.layer, event.latlng.lat, event.latlng.lng);
+        })
     });
 
     //TODO: перенести методы создания и изменения слоёв в отдельный объект

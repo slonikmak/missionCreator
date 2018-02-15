@@ -12,4 +12,5 @@ html, body{
 }
 #FirebugUI{
     visibility: visible;
+    height: 100px;
 }
