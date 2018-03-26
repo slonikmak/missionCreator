@@ -4,6 +4,7 @@ import com.oceanos.mapmodule.editor.JSEditor;
 import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.events.MouseEvent;
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.Circle;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.model.PolyLine;
@@ -103,10 +104,9 @@ public class TestApp extends Application {
             Map<String,Object> opt = new HashMap<>();
             opt.put("draggable", true);
             Marker marker = mapView.addMarker(((MouseEvent)e).getLatLng().lat, ((MouseEvent)e).getLatLng().getLng(), opt);
-            marker.bindTooltip("Tooltip");
-            marker.addEventListener(EventType.MOVE, (event)->{
-                marker.bindTooltip(marker.getId()+ " \n"+marker.getLatLng().lat);
-            });
+            marker.bindTooltip("Tooltip \n\t");
+            marker.bindPopup("PopUp");
+
 
             marker.addEventListener(EventType.CLICK, event -> {
                 event.getType();
@@ -118,7 +118,16 @@ public class TestApp extends Application {
             options.add("weight", 5);
             options.add("fillColor", "green");
 
-            mapView.addCircle(marker.getLatLng(), 200, options);
+            Circle circle = mapView.addCircle(marker.getLatLng(), 200, options);
+            //mapView.getJavaToJsBridge().bindCoords(marker.getId(), circle.getId());
+
+            marker.addEventListener(EventType.MOVE, (event)->{
+                //fixme: менять tooltip а не делать новый
+                marker.bindTooltip(marker.getId()+ " \n"+marker.getLatLng().lat);
+
+                circle.setLatLng(marker.getLatLng());
+            });
+
 
         });
 
@@ -127,7 +136,7 @@ public class TestApp extends Application {
         });
         borderPane.setBottom(hBox);
 
-        VBox scriptBox = new VBox();
+        /*VBox scriptBox = new VBox();
         JSEditor editor = new JSEditor();
         Button runScriptBtn = new Button("run");
         hBox.getChildren().add(editor.getView());
@@ -138,7 +147,7 @@ public class TestApp extends Application {
         runScriptBtn.setOnAction((e)->{
             System.out.println(editor.getScript());
             mapView.exec(editor.getScript());
-        });
+        });*/
 
 
         Scene scene = new Scene(borderPane, 1000, 800);

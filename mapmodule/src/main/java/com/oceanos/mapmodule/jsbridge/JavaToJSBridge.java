@@ -2,6 +2,7 @@ package com.oceanos.mapmodule.jsbridge;
 
 import com.google.gson.Gson;
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
@@ -64,7 +65,7 @@ public class JavaToJSBridge {
     }
 
     public void bindPopup(Marker marker){
-        jsObject.call("bindPopup", marker.getId(), marker.getPopup());
+        jsObject.call("bindPopup", marker.getId(), marker.getPopup().getText());
     }
 
     public void bindTooltip(Marker marker){
@@ -99,5 +100,16 @@ public class JavaToJSBridge {
         jsObject.call("showPopup", marker.getId());
     }
 
+    public void changeCircle(int id, LatLng latLng){
+        jsObject.call("changeCircle", id, latLng.lat, latLng.lng);
+    }
 
+    public void bindCoords(int from, int to){
+        jsObject.call("bindCoords", from, to);
+    }
+
+
+    public void setTooltipContent(int id, String content) {
+        jsObject.call("setTooltipContent", id, content);
+    }
 }

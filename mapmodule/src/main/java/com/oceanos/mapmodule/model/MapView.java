@@ -97,7 +97,7 @@ public class MapView extends MapLayer {
                                 jsToJavaBridge.setMapView(this);
                                 window.setMember("javaController", jsToJavaBridge);
                                 //window.setMember("console", applicationContext.getBean(JsToJavaBridge.class));
-                                JSObject jsToJava = (JSObject) webEngine.executeScript("jsToJavaBridge");
+                                JSObject jsToJava = (JSObject) webEngine.executeScript("fromJavaToJs");
                                 //jsToJava.call("echo","echo");
                                 javaToJsBridge.setJsObject(jsToJava);
                                 javaToJsBridge.echo("echo");
@@ -157,12 +157,12 @@ public class MapView extends MapLayer {
     }
 
     public Circle addCircle(LatLng latLng, double radius, LayerOptions options){
-        return new Circle(javaToJsBridge, latLng, radius, options);
+        return new Circle(this.javaToJsBridge, latLng, radius, options);
     }
 
-    public Circle addCircle(LatLng latLng, double radius){
+    /*public Circle addCircle(LatLng latLng, double radius){
         return new Circle(javaToJsBridge,latLng, radius);
-    }
+    }*/
 
     public Repository getRepository() {
         return repository;

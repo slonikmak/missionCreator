@@ -23,24 +23,29 @@ $(function () {
     map.on("layeradd ", function (e) {
 
         if (e.layer instanceof L.Marker){
-            javaBridge.logMsg("add new Marker");
+            fromJsToJava.logMsg("add new Marker");
             group.addLayer(e.layer);
             map.panTo(e.layer.getLatLng());
             //javaBridge.addMarker(e.layer._leaflet_id, e.layer.getLatLng().lat,e.layer.getLatLng().lng);
         }
         if (e.layer instanceof L.Polyline){
-            javaBridge.logMsg("add new PolyLine");
+            fromJsToJava.logMsg("add new PolyLine");
+            group.addLayer(e.layer);
+        }
+
+        if (e.layer instanceof L.Circle){
+            fromJsToJava.logMsg("add new Circle");
             group.addLayer(e.layer);
         }
 
         e.layer.on('click', function (event) {
-            javaBridge.clickLayer(e.layer, event.latlng.lat, event.latlng.lng);
+            fromJsToJava.clickLayer(e.layer, event.latlng.lat, event.latlng.lng);
         })
     });
 
     //TODO: перенести методы создания и изменения слоёв в отдельный объект
     map.on("click",function (e) {
-        javaBridge.clickToMap(e.latlng);
+        fromJsToJava.clickToMap(e.latlng);
 /*
 
             //console.log(e.getSome());

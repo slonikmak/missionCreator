@@ -13,13 +13,20 @@ public class Circle extends Path {
 
     public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius, LayerOptions options) {
         super(javaToJSBridge.addCircle(latLng, radius, options));
+        this.javaToJSBridge = javaToJSBridge;
         this.options = options;
         this.latLng = latLng;
         this.radius = radius;
     }
 
-    public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius){
+   /* public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius){
         this(javaToJSBridge, latLng, radius, new LayerOptions());
+    }*/
+
+    public void setLatLng(LatLng latLng){
+        //System.out.println(latLng.lat);
+        this.latLng = latLng;
+        javaToJSBridge.changeCircle(this.id, latLng);
     }
 
 

@@ -1,4 +1,6 @@
-var javaBridge = {
+//Объукт, содержащий функции для сообщений в JAVA
+
+var fromJsToJava = {
 
     logMsg: function (msg) {
         javaController.log("[JS] "+msg)

@@ -16,7 +16,7 @@ public class Marker extends MapLayer {
 
 
     private JavaToJSBridge javaToJSBridge;
-    private String popup;
+    private PopUp popup;
     private Tooltip tooltip;
     private ObjectProperty<LatLng> latLng;
 
@@ -46,7 +46,7 @@ public class Marker extends MapLayer {
     }
 
     public void bindPopup(String msg){
-        this.popup = msg;
+        this.popup = new PopUp(id, msg);
         javaToJSBridge.bindPopup(this);
     }
 
@@ -59,7 +59,7 @@ public class Marker extends MapLayer {
         javaToJSBridge.showPopup(this);
     }
 
-    public String getPopup(){
+    public PopUp getPopup(){
         return this.popup;
     }
 
@@ -67,9 +67,9 @@ public class Marker extends MapLayer {
         return tooltip;
     }
 
-    public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
+    /*//public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
         this.javaToJSBridge = javaToJSBridge;
-    }
+    }*/
 
 
 
