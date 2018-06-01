@@ -1,18 +1,27 @@
 package com.oceanos.mapmodule.model;
 
 
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JavaToJsBridge;
 
 import java.util.Map;
 
 public abstract class MapLayer extends Evented{
-    String name;
-    int id;
-    Map<String, Object> options;
-    JavaToJSBridge javaToJSBridge;
+    protected String name;
+    protected int id;
+    protected Map<String, Object> options;
+    JavaToJsBridge javaToJsBridge;
+
+    public MapLayer(){
+
+    }
 
     public MapLayer(int id){
         this.id = id;
+    }
+
+    public MapLayer(int id, JavaToJsBridge javaToJsBridge){
+        this.id = id;
+        this.javaToJsBridge = javaToJsBridge;
     }
 
     public int getId() {
@@ -35,11 +44,12 @@ public abstract class MapLayer extends Evented{
         this.options = options;
     }
 
-    public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
-        this.javaToJSBridge = javaToJSBridge;
+    //TODO: move to constructor
+    public void setJavaToJsBridge(JavaToJsBridge javaToJsBridge) {
+        this.javaToJsBridge = javaToJsBridge;
     }
 
-    public JavaToJSBridge getJavaToJSBridge() {
-        return javaToJSBridge;
+    public JavaToJsBridge getJavaToJsBridge() {
+        return javaToJsBridge;
     }
 }

@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class JavaToJSBridge {
+public class JavaToJsBridge {
+    private final String prefix = "[JAVA-JS]";
 
     private Repository repository;
     private JSObject jsObject;
     private Gson gson;
 
-    public JavaToJSBridge(){
+    public JavaToJsBridge(){
         gson = new Gson();
     }
 
@@ -33,22 +34,23 @@ public class JavaToJSBridge {
     }
 
     public void echo(String msg){
+        System.out.println(prefix+ " echo: "+msg);
         jsObject.call("echo", msg);
     }
 
     public int addMarker(double lat, double lng, Map<String, Object> options){
+        System.out.println(prefix+" addMarker");
         int id = (int) jsObject.call("addMarker", lat,lng, gson.toJson(options));
-        System.out.println(repository.getLayers().size());
         return id;
     }
 
     public int addCircle(LatLng latLng, double radius, LayerOptions options){
+        System.out.println(prefix+" addCircle");
         return (int) jsObject.call("addCircle", latLng.lat, latLng.lng, radius, gson.toJson(options.getOptions()));
     }
 
     public void changeMarker(int id, double lat, double lng) {
-
-        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f", id, lat, lng);
+        System.out.printf(prefix+" From Java To Js: change marker: %d %f %f", id, lat, lng);
         jsObject.call("changeMarker", id, lat, lng);
         /*try {
             throw new Exception("ooooo"){
@@ -60,15 +62,17 @@ public class JavaToJSBridge {
     }
 
     public void changeMarker(Marker marker){
-        System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f \n", marker.getId(), marker.getLatLng().getLat(), marker.getLatLng().getLng());
+        System.out.printf(prefix+" From Java To Js: change marker: %d %f %f \n", marker.getId(), marker.getLatLng().getLat(), marker.getLatLng().getLng());
         jsObject.call("changeMarker", marker.getId(), marker.getLatLng().getLat(), marker.getLatLng().getLng());
     }
 
     public void bindPopup(Marker marker){
+        System.out.println(prefix + " bindPopup");
         jsObject.call("bindPopup", marker.getId(), marker.getPopup().getText());
     }
 
     public void bindTooltip(Marker marker){
+        System.out.println(prefix + " bindTooltip");
         jsObject.call("bindTooltip", marker.getId(), marker.getTooltip().getContent());
     }
 
@@ -77,15 +81,17 @@ public class JavaToJSBridge {
     }
 
     public int addPolyLine(List<LatLng> latLngs){
-
+        System.out.println(prefix+" addPolyline");
         return (int) jsObject.call("addPolyLine", gson.toJson(latLngs));
     }
 
     public void addPointToLine(int id, LatLng latLng){
+        System.out.println(prefix+" addPointToLine");
         jsObject.call("addPointToLine", id, latLng.lat, latLng.lng);
     }
 
     public void startPolyLine() {
+        System.out.println(prefix+"startPolyline");
         Object o = jsObject.call("startPolyline");
         System.out.println("obj:"+o);
     }
@@ -96,11 +102,12 @@ public class JavaToJSBridge {
 
 
     public void showPopup(Marker marker) {
-        System.out.println("[JAVA] show popup");
+        System.out.println(prefix+" showPopup");
         jsObject.call("showPopup", marker.getId());
     }
 
     public void changeCircle(int id, LatLng latLng){
+        System.out.println(prefix+ " changeCircle");
         jsObject.call("changeCircle", id, latLng.lat, latLng.lng);
     }
 
@@ -110,6 +117,7 @@ public class JavaToJSBridge {
 
 
     public void setTooltipContent(int id, String content) {
+        System.out.println(prefix + "setTooltipContent");
         jsObject.call("setTooltipContent", id, content);
     }
 }

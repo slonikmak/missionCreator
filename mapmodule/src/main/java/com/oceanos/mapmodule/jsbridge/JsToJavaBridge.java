@@ -7,15 +7,11 @@ import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.ListChangeListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 public class JsToJavaBridge {
 
     Repository repository;
-    JavaToJSBridge javaToJSBridge;
+    JavaToJsBridge javaToJSBridge;
     MapView mapView;
 
     public void setMapView(MapView mapView) {
@@ -26,7 +22,7 @@ public class JsToJavaBridge {
         this.repository = repository;
     }
 
-    public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
+    public void setJavaToJSBridge(JavaToJsBridge javaToJSBridge) {
         this.javaToJSBridge = javaToJSBridge;
     }
 
@@ -46,7 +42,7 @@ public class JsToJavaBridge {
         System.out.printf("[JAVA] add marker from JS %d %f %f\n", id, lat, lng);
         Marker marker = new Marker(id, lat, lng);
         repository.addLayer(marker);
-        marker.setJavaToJSBridge(javaToJSBridge);*/
+        marker.setJavaToJsBridge(javaToJSBridge);*/
 
 
         //TODO: move MapLayer

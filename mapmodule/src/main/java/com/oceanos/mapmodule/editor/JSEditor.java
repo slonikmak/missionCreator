@@ -1,9 +1,5 @@
 package com.oceanos.mapmodule.editor;
 
-import com.oceanos.mapmodule.events.EventType;
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
-import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
-import com.oceanos.mapmodule.model.Marker;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;

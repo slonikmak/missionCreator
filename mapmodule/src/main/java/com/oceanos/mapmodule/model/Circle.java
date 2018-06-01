@@ -1,7 +1,7 @@
 package com.oceanos.mapmodule.model;
 
 import com.oceanos.mapmodule.geometry.LatLng;
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JavaToJsBridge;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 
 
@@ -11,7 +11,7 @@ public class Circle extends Path {
     private double radius;
 
 
-    public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius, LayerOptions options) {
+    public Circle(JavaToJsBridge javaToJSBridge, LatLng latLng, double radius, LayerOptions options) {
         super(javaToJSBridge.addCircle(latLng, radius, options));
         this.javaToJSBridge = javaToJSBridge;
         this.options = options;
@@ -19,8 +19,8 @@ public class Circle extends Path {
         this.radius = radius;
     }
 
-   /* public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius){
-        this(javaToJSBridge, latLng, radius, new LayerOptions());
+   /* public Circle(JavaToJSBridge javaToJsBridge, LatLng latLng, double radius){
+        this(javaToJsBridge, latLng, radius, new LayerOptions());
     }*/
 
     public void setLatLng(LatLng latLng){

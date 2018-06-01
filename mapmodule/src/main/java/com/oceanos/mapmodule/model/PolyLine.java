@@ -1,7 +1,7 @@
 package com.oceanos.mapmodule.model;
 
 import com.oceanos.mapmodule.geometry.LatLng;
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JavaToJsBridge;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,7 +11,7 @@ public class PolyLine extends Path {
 
     ObservableList<LatLng> latLngs = FXCollections.observableArrayList();
 
-    public PolyLine(List<LatLng> latLngs, JavaToJSBridge javaToJSBridge) {
+    public PolyLine(List<LatLng> latLngs, JavaToJsBridge javaToJSBridge) {
         super(javaToJSBridge.addPolyLine(latLngs));
         this.javaToJSBridge = javaToJSBridge;
     }

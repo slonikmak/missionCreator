@@ -3,19 +3,13 @@ var obj = {};
 var group = L.layerGroup();
 
 $(function () {
-
-
-
     var map = L.map('map',{editable: true, preferCanvas: true}).setView([51.505, -0.09], 13);
-
     obj.map = map;
-
     addToolBar(map);
-
 
     //http://{s}.tiles.mapbox.com/v3/gvenech.m13knc8e/{z}/{x}/{y}.png
     //http://{s}.tile.osm.org/{z}/{x}/{y}.png
-    L.tileLayer('http://{s}.tiles.mapbox.com/v3/gvenech.m13knc8e/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 

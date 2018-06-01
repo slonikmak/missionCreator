@@ -1,14 +1,10 @@
 package com.oceanos.mapmodule.model;
 
-import com.mohamnag.fxwebview_debugger.DevToolsDebuggerServer;
 import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.events.MapEventListener;
-import com.oceanos.mapmodule.events.MouseEvent;
 import com.oceanos.mapmodule.geometry.LatLng;
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JavaToJsBridge;
 import com.oceanos.mapmodule.jsbridge.JsToJavaBridge;
-import com.oceanos.mapmodule.model.MapLayer;
-import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
 import javafx.concurrent.Worker;
@@ -16,8 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +31,7 @@ public class MapView extends MapLayer {
     private WebEngine webEngine;
     private JSObject window;
 
-    private JavaToJSBridge javaToJsBridge;
+    private JavaToJsBridge javaToJsBridge;
     private JsToJavaBridge jsToJavaBridge;
     private Repository repository;
 
@@ -88,7 +82,7 @@ public class MapView extends MapLayer {
                                     e.printStackTrace();
                                 }*/
                                 window = (JSObject) webEngine.executeScript("window");
-                                javaToJsBridge = new JavaToJSBridge();
+                                javaToJsBridge = new JavaToJsBridge();
                                 javaToJsBridge.setRepository(repository);
 
                                 jsToJavaBridge = new JsToJavaBridge();
@@ -137,15 +131,16 @@ public class MapView extends MapLayer {
     }
 
 
-    //TODO: delegate add functions to another object
-    public Marker addMarker() {
-        return addMarker(51.505, -0.09);
-    }
 
+    //TODO: delegate add functions to another object
     public Marker addMarker(double lat, double lng, Map<String, Object> options) {
         Marker marker = new Marker(lat, lng, options, javaToJsBridge);
         repository.addLayer(marker);
         return marker;
+    }
+
+    public Marker addMarker() {
+        return addMarker(51.505, -0.09);
     }
 
     public Marker addMarker(double lat, double lng) {
@@ -169,7 +164,7 @@ public class MapView extends MapLayer {
     }
 
 
-    public JavaToJSBridge getJavaToJsBridge() {
+    public JavaToJsBridge getJavaToJsBridge() {
         return javaToJsBridge;
     }
 

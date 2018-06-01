@@ -1,12 +1,12 @@
 package com.oceanos.mapmodule.model;
 
-import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
+import com.oceanos.mapmodule.jsbridge.JavaToJsBridge;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 
 
 public abstract class Path extends MapLayer {
     LayerOptions options;
-    JavaToJSBridge javaToJSBridge;
+    JavaToJsBridge javaToJSBridge;
 
 
     public Path(int id) {
@@ -17,7 +17,7 @@ public abstract class Path extends MapLayer {
         this.options = options;
     }
 
-    public void setJavaToJSBridge(JavaToJSBridge javaToJSBridge) {
-        this.javaToJSBridge = javaToJSBridge;
+    public void setJavaToJsBridge(JavaToJsBridge javaToJsBridge) {
+        this.javaToJSBridge = javaToJsBridge;
     }
 }

@@ -35,30 +35,16 @@ public class TestApp extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         BorderPane borderPane = new BorderPane();
-
         MapView mapView = new MapView();
-
-
         borderPane.setCenter(mapView.getView());
-
         HBox hBox = new HBox();
-
-
-
         Button btn = new Button("add");
-
-
-
         Button testBtn = new Button("test");
-
         Button addLineBtn = new Button("add line");
-
         Button startLineBtn = new Button("start");
-
         startLineBtn.setOnAction((e)->{
             mapView.getJavaToJsBridge().startPolyLine();
         });
-
         addLineBtn.setOnAction((e)->{
             List<LatLng> list = new ArrayList();
             list.add(new LatLng(45.51, -122.68));
@@ -67,17 +53,16 @@ public class TestApp extends Application {
             btn.setOnAction((event)->{
                 line.addLatLng(new LatLng(46, -123));
             });
-
         });
 
-        testBtn.setOnAction((e)->{
+        /*testBtn.setOnAction((e)->{
             //System.out.println(mapView.exec("group.getLayers().length"));
             try {
                 mapView.runScript(Paths.get("C:\\Users\\User\\Desktop\\script.txt"));
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        });
+        });*/
 
         hBox.getChildren().add(btn);
         hBox.getChildren().add(testBtn);
@@ -106,27 +91,7 @@ public class TestApp extends Application {
             Marker marker = mapView.addMarker(((MouseEvent)e).getLatLng().lat, ((MouseEvent)e).getLatLng().getLng(), opt);
             marker.bindTooltip("Tooltip \n\t");
             marker.bindPopup("PopUp");
-
-
-            marker.addEventListener(EventType.CLICK, event -> {
-                event.getType();
-                System.out.println("click");
-            });
-
-            LayerOptions options = new LayerOptions();
-            options.add("color", "red");
-            options.add("weight", 5);
-            options.add("fillColor", "green");
-
-            Circle circle = mapView.addCircle(marker.getLatLng(), 200, options);
-            //mapView.getJavaToJsBridge().bindCoords(marker.getId(), circle.getId());
-
-            marker.addEventListener(EventType.MOVE, (event)->{
-                //fixme: менять tooltip а не делать новый
-                marker.bindTooltip(marker.getId()+ " \n"+marker.getLatLng().lat);
-
-                circle.setLatLng(marker.getLatLng());
-            });
+            marker.setOnClick((event)-> System.out.println("click"));
 
 
         });
@@ -155,11 +120,12 @@ public class TestApp extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {
         launch(args);
     }
+
+
+
 }
