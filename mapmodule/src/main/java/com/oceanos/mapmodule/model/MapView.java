@@ -11,6 +11,8 @@ import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -27,6 +29,8 @@ import java.util.Map;
 
 
 public class MapView extends MapLayer {
+
+    BooleanProperty ready = new SimpleBooleanProperty(false);
 
     //FIXME: move init to constructor
     Map<EventType, MapEventListener> listeners = new HashMap<>();
@@ -101,6 +105,8 @@ public class MapView extends MapLayer {
                                 //jsToJava.call("echo","echo");
                                 javaToJsBridge.setJsObject(jsToJava);
                                 javaToJsBridge.echo("echo");
+
+                                ready.set(true);
                                 //id = javaToJsBridge.getMapId();
 
 
@@ -138,7 +144,7 @@ public class MapView extends MapLayer {
 
 
     //TODO: delegate add functions to another object
-    public Marker addMarker() {
+    /*public Marker addMarker() {
         return addMarker(51.505, -0.09);
     }
 
@@ -158,6 +164,13 @@ public class MapView extends MapLayer {
 
     public Circle addCircle(LatLng latLng, double radius, LayerOptions options){
         return new Circle(this.javaToJsBridge, latLng, radius, options);
+    }*/
+
+    public MapLayersGroup createLayersGroup(){
+        MapLayersGroup group = new MapLayersGroup();
+        group.setJavaToJSBridge(javaToJsBridge);
+        repository.addLayer(group);
+        return group;
     }
 
     /*public Circle addCircle(LatLng latLng, double radius){
@@ -184,6 +197,10 @@ public class MapView extends MapLayer {
     public Object runScript(java.nio.file.Path pathToFile) throws IOException {
         String s = Files.lines(pathToFile).reduce("", (x, y)->x+y);
         return exec(s);
+    }
+
+    public BooleanProperty redyProperty(){
+        return ready;
     }
 
 

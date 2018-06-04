@@ -2,8 +2,10 @@ package com.oceanos.mapmodule.jsbridge;
 
 import com.google.gson.Gson;
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.Circle;
 import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.Marker;
+import com.oceanos.mapmodule.model.PolyLine;
 import com.oceanos.mapmodule.model.options.LayerOptions;
 import com.oceanos.mapmodule.repository.Repository;
 import netscape.javascript.JSObject;
@@ -46,6 +48,10 @@ public class JavaToJSBridge {
         return (int) jsObject.call("addCircle", latLng.lat, latLng.lng, radius, gson.toJson(options.getOptions()));
     }
 
+    public int addCircle(Circle circle){
+        return (int) jsObject.call("addCircle", circle.getLatLng().lat, circle.getLatLng().lng, circle.getRadius(), gson.toJson(circle.getOptions()));
+    }
+
     public void changeMarker(int id, double lat, double lng) {
 
         System.out.printf("[JAVA] From Java To Js: change marker: %d %f %f", id, lat, lng);
@@ -79,6 +85,10 @@ public class JavaToJSBridge {
     public int addPolyLine(List<LatLng> latLngs){
 
         return (int) jsObject.call("addPolyLine", gson.toJson(latLngs));
+    }
+
+    public int addPolyLine(PolyLine line){
+        return (int) jsObject.call("addPolyLine", gson.toJson((List<LatLng>)line.getLatLngs()));
     }
 
     public void addPointToLine(int id, LatLng latLng){

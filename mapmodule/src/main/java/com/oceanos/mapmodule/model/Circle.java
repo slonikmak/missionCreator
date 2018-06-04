@@ -3,20 +3,22 @@ package com.oceanos.mapmodule.model;
 import com.oceanos.mapmodule.geometry.LatLng;
 import com.oceanos.mapmodule.jsbridge.JavaToJSBridge;
 import com.oceanos.mapmodule.model.options.LayerOptions;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 
 public class Circle extends Path {
 
     private LatLng latLng;
-    private double radius;
+    private DoubleProperty radius = new SimpleDoubleProperty();
 
 
-    public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius, LayerOptions options) {
-        super(javaToJSBridge.addCircle(latLng, radius, options));
+    public Circle(LatLng latLng, double radius, LayerOptions options) {
+        //super(javaToJSBridge.addCircle(latLng, radius, options));
         this.javaToJSBridge = javaToJSBridge;
         this.options = options;
         this.latLng = latLng;
-        this.radius = radius;
+        this.radius.set(radius);
     }
 
    /* public Circle(JavaToJSBridge javaToJSBridge, LatLng latLng, double radius){
@@ -29,5 +31,15 @@ public class Circle extends Path {
         javaToJSBridge.changeCircle(this.id, latLng);
     }
 
+    public LatLng getLatLng(){
+        return latLng;
+    }
 
+    public double getRadius() {
+        return radius.get();
+    }
+
+    public DoubleProperty radiusProperty() {
+        return radius;
+    }
 }

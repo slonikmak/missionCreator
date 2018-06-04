@@ -7,11 +7,33 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="libs/jquery-3.3.1.js"></script>
     <script src="libs/leaflet-src.js"></script>
-    <script src="js/main.js"></script>
+    <!--<script src="js/main.js"></script>
     <script src="js/fromJsToJava.js"></script>
-    <script src="js/fromJavaToJs.js"></script>
+    <script src="js/fromJavaToJs.js"></script>-->
 </head>
-<body>
+<script>
 
+    $(function () {
+        var map = L.map('map', {editable: true, preferCanvas: true}).setView([51.505, -0.09], 13);
+        var group = L.layerGroup();
+        L.tileLayer('http://{s}.tiles.mapbox.com/v3/gvenech.m13knc8e/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        group.addTo(map);
+
+        map.on("click", function (e) {
+            console.log(e)
+            var marker = L.marker(e.latlng,{draggable:true});
+            group.addLayer(marker);
+            marker.on("click", function (event) {
+                console.log(event)
+                console.log(marker)
+            })
+        })
+    })
+</script>
+<body>
+    <div id="map"></div>
 </body>
 </html>

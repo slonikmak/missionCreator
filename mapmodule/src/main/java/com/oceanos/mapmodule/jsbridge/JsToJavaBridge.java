@@ -4,6 +4,7 @@ import com.oceanos.mapmodule.events.EventType;
 import com.oceanos.mapmodule.events.MapEvent;
 import com.oceanos.mapmodule.events.MouseEvent;
 import com.oceanos.mapmodule.geometry.LatLng;
+import com.oceanos.mapmodule.model.MapLayer;
 import com.oceanos.mapmodule.model.MapView;
 import com.oceanos.mapmodule.model.Marker;
 import com.oceanos.mapmodule.repository.Repository;
@@ -89,6 +90,8 @@ public class JsToJavaBridge {
     public void clickLayer(int id, double lat, double lng){
         repository.getLayers().filtered(l->l.getId()==id).get(0).fireEvent(EventType.CLICK, new MouseEvent(EventType.CLICK,new LatLng(lat, lng)));
     }
+
+
 
 
 }

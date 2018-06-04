@@ -45,6 +45,7 @@ $(function () {
 
     //TODO: перенести методы создания и изменения слоёв в отдельный объект
     map.on("click",function (e) {
+
         fromJsToJava.clickToMap(e.latlng);
 /*
 

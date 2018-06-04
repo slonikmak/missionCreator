@@ -20,14 +20,18 @@ public class Marker extends MapLayer {
     private Tooltip tooltip;
     private ObjectProperty<LatLng> latLng;
 
+    public Marker(double lat, double lng){
+        this.latLng = new SimpleObjectProperty<>(new LatLng(lat,lng));
+    }
+
     Marker(int id, double lat, double lng){
-        super(id);
-        latLng = new SimpleObjectProperty<>(new LatLng(lat, lng));
+        this(lat, lng);
+        this.id = id;
     }
 
 
     Marker(double lat, double lng, Map<String, Object> options, JavaToJSBridge javaToJSBridge){
-        super(javaToJSBridge.addMarker(lat, lng, options));
+        this(lat, lng);
         this.javaToJSBridge = javaToJSBridge;
         this.latLng = new SimpleObjectProperty<>(new LatLng(lat, lng));
     }

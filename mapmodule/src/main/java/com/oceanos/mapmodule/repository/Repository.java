@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class Repository {
 
@@ -36,5 +37,9 @@ public class Repository {
 
     public ObjectProperty<MapLayer> currentLayerProperty() {
         return currentLayer;
+    }
+
+    public Optional<MapLayer> findLayerById(int id){
+        return layers.stream().filter(l->l.getId()==id).findFirst();
     }
 }

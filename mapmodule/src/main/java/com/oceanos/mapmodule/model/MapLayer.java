@@ -11,6 +11,10 @@ public abstract class MapLayer extends Evented{
     Map<String, Object> options;
     JavaToJSBridge javaToJSBridge;
 
+    public MapLayer(){
+
+    }
+
     public MapLayer(int id){
         this.id = id;
     }
